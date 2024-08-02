@@ -1,16 +1,29 @@
-import os
+CREATE DATABASE IF NOT EXISTS `ssis`;
 
-script_path = os.path.join(os.path.dirname(
-    __file__), 'create_tables_script.sql')
+USE `ssis`;
 
+CREATE TABLE IF NOT EXISTS college (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    collegeCode VARCHAR(8) UNIQUE NOT NULL,
+    collegeName VARCHAR(128) UNIQUE NOT NULL
+);
 
-def create_tables(app, mysql):
-    with open(script_path, 'r') as f:
-        sql = f.read()
-        with app.app_context():
-            sql_commands = sql.split(';')
-            cur = mysql.connection.cursor()
-            for command in sql_commands:
-                if command.strip():
-                    cur.execute(command)
-            mysql.connection.commit()
+CREATE TABLE IF NOT EXISTS course (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    courseCode VARCHAR(8) UNIQUE NOT NULL,
+    courseName VARCHAR(128) UNIQUE NOT NULL,
+    collegeId INT,
+    FOREIGN KEY (collegeId) REFERENCES college(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS student (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    studentId VARCHAR(16) UNIQUE NOT NULL,
+    firstName VARCHAR(64) NOT NULL,
+    lastName VARCHAR(32) NOT NULL,
+    gender VARCHAR(8) NOT NULL,
+    year INT NOT NULL,
+    courseId INT,
+    FOREIGN KEY (courseId) REFERENCES course(id) ON DELETE CASCADE,
+    cloudinary_url VARCHAR(255)
+);

@@ -1,6 +1,5 @@
 from flask import Flask
-from flask_mysql_connector import MySQL
-from .db import create_tables, mysql
+from .db import create_tables, get_mysql_connection
 from webapp.config import Config
 from dotenv import load_dotenv
 import cloudinary
@@ -20,8 +19,12 @@ def create_app():
         folder_name=app.config['CLOUD_FOLDER']
     )
 
-    create_tables(app=app, mysql=mysql)
-    
+    # Initialize MySQL connection
+    mysql = get_mysql_connection(app.config)
+
+    # Ensure create_tables is a function and not a module
+    create_tables(app)
+
     from .routes.base_bp import base_bp
     # from .routes.college_bp import college
     # from .routes.course_bp import course
@@ -31,5 +34,5 @@ def create_app():
     # app.register_blueprint(college, url_prefix='/college')
     # app.register_blueprint(course, url_prefix='/course')
     # app.register_blueprint(student, url_prefix='/student')
-   
+
     return app
