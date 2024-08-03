@@ -4,6 +4,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="/static/css/base.css"/>
+        <link rel="stylesheet" type="text/css" href="/static/css/table-headers.css"/>
+        <link rel="stylesheet" type="text/css" href="/static/css/table-body.css"/>
         <title>SSIS</title>
     </head>
 
@@ -13,9 +15,36 @@
     </div>
         
     <div class="table-container">
-        
-        <div class ="table-headers">
-            
+        <div class="table-headers">
+            <!-- Student -->
+            <div class= "profile-picture">Profile Picture</div>
+            <div class= "id-number">Id Number</div>
+            <div class= "first-last-name">First Name<br>Last Name</div>
+            <div class= "course">Course</div>
+            <div class= "year">Year</div>
+            <div class= "gender">Gender</div>
+            <div class= "college">College</div>
+        </div>
+        <div class="table-body">
+            {% for student in students %}
+            <div class="table-row">
+                <div class="profile-picture">
+                    <img src="{{ student.cloudinary_url }}" alt="Profile Picture" />
+                </div>
+                <div class="id-number">{{ student.studentId }}</div>
+                <div class="first-last-name">{{ student.firstName }}<br>{{ student.lastName }}</div>
+                <div class="course">
+                    {# You may need additional logic to get course names if not in `student` #}
+                    {{ student.courseId }}
+                </div>
+                <div class="year">{{ student.year }}</div>
+                <div class="gender">{{ student.gender }}</div>
+                <div class="college">
+                    {# You may need additional logic to get college names if not in `student` #}
+                    {{ student.courseId }}  <!-- Update with actual logic if needed -->
+                </div>
+            </div>
+            {% endfor %}
         </div>
     </div>
 

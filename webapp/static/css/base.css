@@ -11,6 +11,7 @@
 
 .NAVBAR {
     display: flex;
+    flex-direction: row;
     align-items: center;
     height: 100%;
 }
@@ -18,9 +19,9 @@
 .navbar-title {
     font-family: 'Lexend Deca', sans-serif;
     font-weight: 700;
-    font-size: calc(1.67vw + 2.96vh)
+    font-size: calc(0.84vw + 1.48vh);
     color: var(--gray-600); 
-    margin-left: 1.25vw;
+    margin: 0vh 53.75vw 0vh 1.25vw;
 }
 
 body {
@@ -47,5 +48,28 @@ body {
     width: 95.83vw;
     height: 7.4vh;
     border-radius: 0 1.20vw 0 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
+.search-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0.52vh 2.083vw 0.52vh 0vw;
+    width: 20.83vw; 
+    height: 5.55vh;
+    
+}
+
+.search-input {
+    font-family: 'Lexend Deca', sans-serif;
+    font-weight: 700;
+    padding: 1.48vh 1.67vw;
+    border: 0px solid;
+    font-size: calc(0.63vw + 1.11vh);
+    outline: none;
+    border-radius: 1.67vw;
+    box-shadow: inset 0px 6px 8px rgba(0, 0, 0, 0.5);
+}
