@@ -6,6 +6,8 @@
         <link rel="stylesheet" type="text/css" href="/static/css/base.css"/>
         <link rel="stylesheet" type="text/css" href="/static/css/table-headers.css"/>
         <link rel="stylesheet" type="text/css" href="/static/css/table-body.css"/>
+        <link rel="stylesheet" type="text/css" href="/static/css/buttons.css"/>
+        <link rel="stylesheet" type="text/css" href="/static/css/tabs.css"/>
         <title>SSIS</title>
     </head>
 
@@ -13,41 +15,47 @@
     <div class="header">
         {% include 'navbar.html'%}
     </div>
-        
-    <div class="table-container">
-        <div class="table-headers">
-            <!-- Student -->
-            <div class= "profile-picture">Profile Picture</div>
-            <div class= "id-number">Id Number</div>
-            <div class= "first-last-name">First Name<br>Last Name</div>
-            <div class= "course">Course</div>
-            <div class= "year">Year</div>
-            <div class= "gender">Gender</div>
-            <div class= "college">College</div>
+    
+    <div class="upper-container">
+        <div class="tabs-container">
+            <button class="tab-button" id="college-tab"  onclick="showTab('college')">College</button>
+            <button class="tab-button" id="course-tab" onclick="showTab('course')">Course</button>
+            <button class="tab-button" id="student-tab" onclick="showTab('student')">Student</button>
         </div>
-        <div class="table-body">
-            {% for student in students %}
-            <div class="table-row">
-                <div class="profile-picture">
-                    <img src="{{ student.cloudinary_url }}" alt="Profile Picture" />
-                </div>
-                <div class="id-number">{{ student.studentId }}</div>
-                <div class="first-last-name">{{ student.firstName }}<br>{{ student.lastName }}</div>
-                <div class="course">
-                    {# You may need additional logic to get course names if not in `student` #}
-                    {{ student.courseId }}
-                </div>
-                <div class="year">{{ student.year }}</div>
-                <div class="gender">{{ student.gender }}</div>
-                <div class="college">
-                    {# You may need additional logic to get college names if not in `student` #}
-                    {{ student.courseId }}  <!-- Update with actual logic if needed -->
-                </div>
+
+        <div class="button-row">
+            <div class="delete-button-container">
+                <button id="delete-button" class="buttons"disabled>Delete</button>
             </div>
-            {% endfor %}
+
+            <div class="edit-button-container">
+                <button id="edit-button" class="buttons"disabled>Edit</button>
+            </div>
+
+            <div class="add-button-container">
+                <button id="add-button" class="buttons">Add</button>
+            </div>
+            
         </div>
     </div>
 
+    <div class="table-container">
+        <div id="table-headers" class="table-headers">
+            
+        </div>
+        <div id="table-body" class="table-body">
+            
+        </div>
+    </div>
+
+<script>
+    const students = {{ students|tojson }};
+    const courses = {{ courses|tojson }};
+    const colleges = {{ colleges|tojson }};
+</script>
+
+<script src="/static/js/tabs.js"></script>
 <script src="/static/js/base.js"></script>
+
 </body>
 </html>

@@ -19,10 +19,6 @@ def create_app():
         folder_name=app.config['CLOUD_FOLDER']
     )
 
-    # Initialize MySQL connection
-    mysql = get_mysql_connection(app.config)
-
-    # Ensure create_tables is a function and not a module
     create_tables(app)
 
     from .routes.base_bp import base_bp

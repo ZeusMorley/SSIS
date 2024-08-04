@@ -20,8 +20,10 @@
     font-family: 'Lexend Deca', sans-serif;
     font-weight: 700;
     font-size: calc(0.84vw + 1.48vh);
-    color: var(--gray-600); 
-    margin: 0vh 53.75vw 0vh 1.25vw;
+    color: var(--gray-600);
+    width: 24.27vw;
+    height: 3.703vh;
+    margin: 0vh 51.56vw 0vh 1.25vw;
 }
 
 body {
@@ -36,7 +38,7 @@ body {
 
 .table-container {
     background: var(--gray-200);
-    margin: 7.4vh 2.08vw 3.7vh 2.08vw;
+    margin: 0 2.08vw 3.7vh 2.08vw;
     width: 95.83vw;
     height: 81.48vh;
     border-radius: 0% 1.20vw 1.20vw 1.20vw;
@@ -60,7 +62,6 @@ body {
     padding: 0.52vh 2.083vw 0.52vh 0vw;
     width: 20.83vw; 
     height: 5.55vh;
-    
 }
 
 .search-input {
@@ -72,4 +73,9 @@ body {
     outline: none;
     border-radius: 1.67vw;
     box-shadow: inset 0px 6px 8px rgba(0, 0, 0, 0.5);
+}
+
+.upper-container {
+    display: flex;
+    flex-direction: row;
 }
