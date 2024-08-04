@@ -64,7 +64,7 @@ body {
     height: 5.55vh;
 }
 
-.search-input {
+#search-input {
     font-family: 'Lexend Deca', sans-serif;
     font-weight: 700;
     padding: 1.48vh 1.67vw;

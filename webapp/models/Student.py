@@ -7,7 +7,12 @@ def get_all_students():
     cursor = conn.cursor(dictionary=True)
     
     query = """
-    SELECT student.*, course.courseName, college.collegeName
+    SELECT 
+        student.*, 
+        course.courseName, 
+        course.courseCode, 
+        college.collegeName, 
+        college.collegeCode
     FROM student
     JOIN course ON student.courseId = course.id
     JOIN college ON course.collegeId = college.id
