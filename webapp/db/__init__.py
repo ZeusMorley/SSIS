@@ -10,5 +10,4 @@ def get_mysql_connection():
     )
     return connection
 
-# Import create_tables function from the same module
 from .create_tables import create_tables

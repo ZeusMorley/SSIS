@@ -62,7 +62,7 @@ function showAddModal() {
                     </div>
                 </div>
 
-                <button type="submit" class="confirm-button">Confirm</button>
+                <button type="submit" class="confirm-button" id="student-confirm">Confirm</button>
             </form>
         `;
         modal.className = 'modal student-modal';
@@ -76,7 +76,7 @@ function showAddModal() {
                 <input type="text" id="course-name" name="courseName"><br>
                 <label for="college-name">College Name:</label>
                 <input type="text" id="college-name" name="collegeName"><br>
-                <button type="submit" class="confirm-button">Confirm</button>
+                <button type="submit" class="confirm-button" id="course-confirm">Confirm</button>
             </form>
         `;
         modal.className = 'modal course-modal';
@@ -88,7 +88,7 @@ function showAddModal() {
                 <input type="text" id="college-code" name="collegeCode"><br>
                 <label for="college-name">College Name:</label>
                 <input type="text" id="college-name" name="collegeName"><br>
-                <button type="submit" class="confirm-button">Confirm</button>
+                <button type="submit" class="confirm-button" id="college-confirm">Confirm</button>
             </form>
         `;
         modal.className = 'modal college-modal';
@@ -96,6 +96,7 @@ function showAddModal() {
 
     modalBody.innerHTML = modalContent;
     modal.style.display = "block";
+    attachCollegeFormSubmitListener();
 }
 
 function closeModal() {
@@ -110,32 +111,37 @@ window.onclick = function(event) {
     }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    document.addEventListener('submit', function(event) {
-        if (event.target.id === 'add-student-form') {
+function attachCollegeFormSubmitListener() {
+    const form = document.getElementById('add-college-form');
+    if (form) {
+        form.addEventListener('submit', function(event) {
             event.preventDefault();
-            // Handle student form submission
-            const formData = new FormData(event.target);
-            const studentData = Object.fromEntries(formData.entries());
-            console.log(studentData);
-            closeModal();
-        } else if (event.target.id === 'add-course-form') {
-            event.preventDefault();
-            // Handle course form submission
-            const formData = new FormData(event.target);
-            const courseData = Object.fromEntries(formData.entries());
-            console.log(courseData);
-            closeModal();
-        } else if (event.target.id === 'add-college-form') {
-            event.preventDefault();
-            // Handle college form submission
-            const formData = new FormData(event.target);
+            const formData = new FormData(form);
             const collegeData = Object.fromEntries(formData.entries());
-            console.log(collegeData);
-            closeModal();
-        }
-    });
-});
+
+            fetch('/college/add-college', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(collegeData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showErrorModal(data.message, data.type);
+                    setTimeout(() => {
+                        location.reload();
+                    }, 3000);
+                } else {
+                    showErrorModal(data.message, data.type);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    }
+}
+
 
 // Reminder:
 // (DONE) Implement: Dapat ma off ang buttons kada change tab since ma off man sd tung select
@@ -154,8 +160,4 @@ document.addEventListener('DOMContentLoaded', function() {
 //Features to add
 //Add - maka add, upload(to cloudyinary and preview ug profile pic 
 //Edit - maka usab ug imong profile pic or i clear ang profile pic
-//default na pic if walay profile
-
-//Refresh idea
-//Clear the current rows and upload the new list without refreshing the window.
-
+// (DONE)default na pic if walay profile

@@ -19,3 +19,52 @@ def get_all_colleges():
     cursor.close()
     conn.close()
     return colleges
+
+def add_college(college_code, college_name):
+    try:
+        conn = get_mysql_connection()
+        cursor = conn.cursor()
+        query = "INSERT INTO college (collegeCode, collegeName) VALUES (%s, %s)"
+        cursor.execute(query, (college_code, college_name))
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return True
+    except Exception as e:
+        print(f"Error: {e}")
+        return False
+
+def check_if_has_courses(college_code):
+    try:
+        conn = get_mysql_connection()
+        cursor = conn.cursor()
+
+        query = "SELECT COUNT(*) FROM course WHERE collegeId = (SELECT id FROM college WHERE collegeCode = %s)"
+        cursor.execute(query, (college_code,))
+        result = cursor.fetchone()
+
+        cursor.close()
+        conn.close()
+
+        return result[0] > 0
+    except Exception as e:
+        print(f"Error: {e}")
+        return False
+
+
+
+def delete_college(college_code):
+    try:
+        conn = get_mysql_connection()
+        cursor = conn.cursor()
+
+        query = "DELETE FROM college WHERE collegeCode = %s"
+        cursor.execute(query, (college_code,))
+        
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return True
+    except Exception as e:
+        print(f"Error: {e}")
+        return False

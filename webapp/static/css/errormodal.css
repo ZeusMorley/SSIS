@@ -1,0 +1,25 @@
+.error-modal {
+    position: fixed;
+    top: 2vh;
+    right: 1vw;
+    padding: 1vh 1vw 1vh 1vw;
+    color: white;
+    border-radius: 1vw;
+    display: none;
+    z-index: 1000;
+}
+
+.error-modal.default {
+    color: var(--red-700);
+    background-color: rgba(244, 64, 52, 0.9);
+}
+
+.error-modal.success {
+    color: var(--green-700);
+    background-color: rgba(76, 175, 79, 0.9);
+}
+
+.error-modal.warning {
+    color: var(--yellow-700);
+    background-color: rgba(241, 231, 116, 0.9);
+}

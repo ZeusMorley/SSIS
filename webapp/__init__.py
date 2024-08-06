@@ -22,12 +22,12 @@ def create_app():
     create_tables(app)
 
     from .routes.base_bp import base_bp
-    # from .routes.college_bp import college
+    from .routes.college_bp import college_bp
     # from .routes.course_bp import course
     # from .routes.student_bp import student
 
     app.register_blueprint(base_bp, url_prefix='/')
-    # app.register_blueprint(college, url_prefix='/college')
+    app.register_blueprint(college_bp, url_prefix='/college')
     # app.register_blueprint(course, url_prefix='/course')
     # app.register_blueprint(student, url_prefix='/student')
 

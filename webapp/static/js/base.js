@@ -1,3 +1,5 @@
+let selectedRow = null;
+
 function addRowClickListeners() {
     const rows = document.querySelectorAll('#table-body .table-row');
     const editButton = document.getElementById('edit-button');
@@ -11,14 +13,85 @@ function addRowClickListeners() {
 
             if (!isSelected) {
                 row.classList.add('selected');
+                selectedRow = row; // Store the selected row
+            } else {
+                selectedRow = null; // Clear the selection
             }
 
-            const hasSelection = document.querySelector('#table-body .table-row.selected') !== null;
+            const hasSelection = selectedRow !== null;
             editButton.disabled = !hasSelection;
             deleteButton.disabled = !hasSelection;
         });
     });
+
+    deleteButton.addEventListener('click', function() {
+        if (selectedRow) {
+            showConfirmationModal();
+        }
+    });
 }
+
+function showConfirmationModal() {
+    const modal = document.getElementById('delete-confirmation-modal');
+    const confirmButton = document.getElementById('confirm-delete-button');
+    const cancelButton = document.getElementById('cancel-delete-button');
+
+    modal.style.display = 'block';
+
+    confirmButton.addEventListener('click', function() {
+        deleteSelectedRow();
+        closeConfirmationModal();
+    });
+
+    cancelButton.addEventListener('click', function() {
+        closeConfirmationModal();
+    });
+
+    const closeButton = document.getElementById('close-confirmation-modal');
+    closeButton.addEventListener('click', function() {
+        closeConfirmationModal();
+    });
+
+    window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            closeConfirmationModal();
+        }
+    });
+}
+
+function closeConfirmationModal() {
+    const modal = document.getElementById('delete-confirmation-modal');
+    modal.style.display = 'none';
+}
+
+function deleteSelectedRow() {
+    if (selectedRow) {
+        const collegeCode = selectedRow.querySelector('.college-code').textContent.trim();
+
+        fetch('/college/delete-college', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ collegeCode })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                selectedRow.remove();
+                selectedRow = null;
+                showErrorModal(data.message, data.type);
+            } else {
+                showErrorModal(data.message, data.type);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showErrorModal('An unexpected error occurred.', 'error');
+        });
+    }
+}
+
 
 function renderStudentRows() {
     let rowsHtml = '';
