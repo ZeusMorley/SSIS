@@ -1,0 +1,45 @@
+.button-row {
+    display: flex;
+    flex-direction: row; 
+}
+.buttons {
+    width: 8.33vw;
+    font-weight: 700;
+    font-size: calc(0.625vw + 1.11vh);
+    letter-spacing: 0.1em;
+    background-color: var(--blue-green-200);
+    color: var(--gray-600);
+    border: none;
+    border-radius: 0.625vw;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.4);
+}
+
+#delete-button {
+    padding: 0.55vh 2.03vw 0.55vh 2.08vw;
+    margin: 2.03vh 0vw 1.66vh 36.197vw;
+}
+
+#edit-button {
+    padding: 0.55vh 2.864vw 0.55vh 2.916vw;
+    margin: 2.03vh 0vw 1.66vh 1.66vw;
+}
+
+#add-button {
+    padding: 0.55vh 2.916vw;
+    margin: 2.03vh 2.083vw 1.66vh 1.66vw;
+}
+
+.buttons:hover {
+    background-color: var(--blue-green-100);
+    box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.4);
+}
+
+.buttons:disabled {
+    background-color: var(--blue-green-100);
+    color: var(--gray-400);
+    cursor: not-allowed;
+    pointer-events: none;
+    box-shadow: 0 0 0px 0px rgba(0, 0, 0, 0);
+}

@@ -1,0 +1,190 @@
+/* Student */
+.profile-picture {
+    font-weight: 700;
+    font-size: calc(0.63vw + 1.11vh);
+    color: var(--gray-600); 
+    padding: 2.4vh 1.04vw 2.4vh 0vw;
+    width: 8.3vw;
+    height: 2.59vh;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    text-align: center; 
+}
+
+.id-number {
+    font-weight: 700;
+    font-size: calc(0.63vw + 1.11vh);
+    color: var(--gray-600); 
+    padding: 2.4vh 1.04vw 2.4vh 1.04vw;
+    width: 11.46vw;
+    height: 2.59vh;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    text-align: center; 
+}
+
+.first-last-name {
+    font-weight: 700;
+    font-size: calc(0.63vw + 1.11vh);
+    color: var(--gray-600); 
+    padding: 2.4vh 1.04vw 2.4vh 1.04vw;
+    width: 18.75vw;
+    height: 5.18vh;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    text-align: center; 
+}
+
+.course {
+    font-weight: 700;
+    font-size: calc(0.63vw + 1.11vh);
+    color: var(--gray-600); 
+    padding: 2.4vh 1.04vw 2.4vh 1.04vw;
+    width: 15.63vw;
+    height: 2.59vh;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    text-align: center; 
+}
+
+.year {
+    font-weight: 700;
+    font-size: calc(0.63vw + 1.11vh);
+    color: var(--gray-600); 
+    padding: 2.4vh 1.04vw 2.4vh 1.04vw;
+    width: 6.25vw;
+    height: 2.59vh;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    text-align: center; 
+}
+
+.gender {
+    font-weight: 700;
+    font-size: calc(0.63vw + 1.11vh);
+    color: var(--gray-600); 
+    padding: 2.4vh 1.04vw 2.4vh 1.04vw;
+    width: 6.25vw;
+    height: 2.59vh;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    text-align: center; 
+}
+
+.college {
+    font-weight: 700;
+    font-size: calc(0.63vw + 1.11vh);
+    color: var(--gray-600); 
+    padding: 2.4vh 1.04vw 2.4vh 2.08vw;
+    width: 12.5vw;
+    height: 2.59vh;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    text-align: center; 
+}
+/* Student */
+
+
+/* Course */
+.course-code {
+    font-weight: 700;
+    font-size: calc(0.63vw + 1.11vh);
+    color: var(--gray-600); 
+    padding: 2.4vh 0vw 2.4vh 2.08vw;
+    width: 16.67vw;
+    height: 2.59vh;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    text-align: center; 
+}
+
+.course-name {
+    font-weight: 700;
+    font-size: calc(0.63vw + 1.11vh);
+    color: var(--gray-600); 
+    padding: 2.4vh 1.04vw 2.4vh 2.08vw;
+    width: 31.25vw;
+    height: 2.59vh;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    text-align: center; 
+}
+
+.student-count{
+    font-weight: 700;
+    font-size: calc(0.63vw + 1.11vh);
+    color: var(--gray-600); 
+    padding: 2.4vh 1.04vw 2.4vh 2.08vw;
+    width: 25vw;
+    height: 2.59vh;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    text-align: center; 
+}
+
+/* Course */
+
+
+/* College */
+.college-code {
+    font-weight: 700;
+    font-size: calc(0.63vw + 1.11vh);
+    color: var(--gray-600); 
+    padding: 2.4vh 2.08vw 2.4vh 0vw;
+    width: 25vw;
+    height: 2.59vh;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    text-align: center; 
+}
+
+.college-name {
+    font-weight: 700;
+    font-size: calc(0.63vw + 1.11vh);
+    color: var(--gray-600); 
+    padding: 2.4vh 2.08 2.4vh 0vw;
+    width: 41.66vw;
+    height: 2.59vh;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    text-align: center; 
+}
+
+.course-count{
+    font-weight: 700;
+    font-size: calc(0.63vw + 1.11vh);
+    color: var(--gray-600); 
+    padding: 2.4vh 1.04vw 2.4vh 2.08vw;
+    width: 20.83vw;
+    height: 2.59vh;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    text-align: center; 
+}
+/* College */
+
+/* couter */
+.index-column {
+    font-weight: 700;
+    font-size: calc(0.63vw + 1.11vh);
+    color: var(--gray-600);
+    padding: 1.2vh 0vw 1.2vh 1.04vw;
+    width: 2vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}

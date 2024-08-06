@@ -1,0 +1,31 @@
+.table-body {
+    display: block;
+    flex-direction: column;
+    align-items: center;
+    margin: 0vh 0vw 0vh 0vw;
+    height: 74.074vh;
+    overflow-y: auto;
+}
+
+.table-row{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 1.85vh 0vw 0vh 0vw;
+    height: 14.81vh;
+    width: 95.83vw;
+    border-bottom: 0.185vw solid var(--gray-300);
+}
+
+.profile-picture img {
+    width: calc(3.13vw + 5.55vh);
+    height: calc(3.13vw + 5.55vh);
+}
+
+.table-row:hover{
+    box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.4);
+}
+
+.table-row.selected {
+    background-color: var(--blue-green-100);
+}

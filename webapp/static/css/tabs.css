@@ -1,0 +1,41 @@
+.tabs-container {
+    display: flex;
+    margin: 0 0;
+}
+
+.tab-button {
+    width: 10.416vw;
+    height: 4vh;
+    background-color: var(--blue-green-200);
+    color: var(--gray-600);
+    border-top: 0.156vw solid var(--gray-500);
+    border-right: 0.156vw solid var(--gray-500);
+    border-bottom: 0vw;
+    border-left: 0.156vw solid var(--gray-500);
+    border-radius: 0.416vw 0.416vw 0vw 0vw;
+    margin: 3.703vh 0vw 0vh 0vw;
+    padding: 0.74vh 0vw 0.74vh 0vw;
+    font-weight: 700;
+    font-size: calc(0.625vw + 1.11vh);
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#college-tab {
+    margin-left:  2.083vw;
+}
+
+.tab-button.active {
+    background-color: var(--gray-300);
+    color: var(--gray-600);
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.tab-button:hover {
+    box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.4);
+}
+
