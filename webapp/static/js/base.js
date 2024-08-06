@@ -76,8 +76,11 @@ function filterTable() {
     const rows = document.querySelectorAll('#table-body .table-row');
 
     rows.forEach(row => {
-        const cells = row.getElementsByClassName('index-column')[0];
-        const textContent = Array.from(row.children).map(cell => cell.textContent.toLowerCase()).join(' ');
+        const textContent = Array.from(row.children)
+            .filter(cell => !cell.classList.contains('index-column'))
+            .map(cell => cell.textContent.toLowerCase())
+            .join(' ');
+            
         if (textContent.includes(searchInput)) {
             row.style.display = '';
         } else {
