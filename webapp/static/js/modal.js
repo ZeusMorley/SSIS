@@ -62,7 +62,7 @@ function showAddModal() {
                     </div>
                 </div>
 
-                <button type="submit" class="confirm-button"disabled>Confirm</button>
+                <button type="submit" class="confirm-button">Confirm</button>
             </form>
         `;
         modal.className = 'modal student-modal';
@@ -76,7 +76,7 @@ function showAddModal() {
                 <input type="text" id="course-name" name="courseName"><br>
                 <label for="college-name">College Name:</label>
                 <input type="text" id="college-name" name="collegeName"><br>
-                <button type="submit" class="confirm-button"disabled>Confirm</button>
+                <button type="submit" class="confirm-button">Confirm</button>
             </form>
         `;
         modal.className = 'modal course-modal';
@@ -88,7 +88,7 @@ function showAddModal() {
                 <input type="text" id="college-code" name="collegeCode"><br>
                 <label for="college-name">College Name:</label>
                 <input type="text" id="college-name" name="collegeName"><br>
-                <button type="submit" class="confirm-button"disabled>Confirm</button>
+                <button type="submit" class="confirm-button">Confirm</button>
             </form>
         `;
         modal.className = 'modal college-modal';
