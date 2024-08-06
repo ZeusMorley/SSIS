@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    showTab('student');
+    showTab('college');
     
     document.getElementById('search-input').value = '';
     
@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function showTab(tabName) {
+    closeModal()
     const tabs = document.querySelectorAll('.tab-button');
     tabs.forEach(tab => {
         tab.classList.remove('active');

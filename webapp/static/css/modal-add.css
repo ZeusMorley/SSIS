@@ -1,0 +1,123 @@
+#add-student-form input#student-id,
+#add-student-form input#first-name,
+#add-student-form input#last-name,
+#add-student-form input#course-name,
+#add-course-form input#course-code,
+#add-course-form input#course-name,
+#add-course-form input#college-name,
+#add-college-form input#college-code,
+#add-college-form input#college-name {
+    width: 17.5vw;
+    height: 3.7vh;
+    border: 0.15vw solid;
+    border-radius: 0.83vw;
+    border-color: var(--blue-green-500);
+    margin: 0.37vh 1.67vw 1.85vh 1.67vw;
+}
+
+#add-course-form input#course-code,
+#add-course-form input#course-name,
+#add-course-form input#college-name {
+    width: 19.58vw;
+}
+
+#add-college-form input#college-code,
+#add-college-form input#college-name {
+    width: 27.91vw;
+}
+
+#add-student-form label[for="student-id"],
+#add-student-form label[for="first-name"],
+#add-student-form label[for="last-name"],
+#add-student-form label[for="course-name"],
+#add-course-form label[for="course-code"],
+#add-course-form label[for="course-name"],
+#add-course-form label[for="college-name"],
+#add-college-form label[for="college-code"],
+#add-college-form label[for="college-name"]{
+    margin-left: 1.67vw;
+}
+
+#add-student-form label[for="student-id"] {
+    margin-top: 3.24vh;
+}
+
+.year-and-gender,
+.year1-and-male,
+.year2-and-female {
+    display: flex;
+    flex-direction: row;
+}
+
+#add-student-form label[for="year"] {
+    width: 2.135vw;
+    margin-left: 2.708vw;
+}
+
+#add-student-form label[for="year1"],
+#add-student-form label[for="year2"],
+#add-student-form label[for="year3"],
+#add-student-form label[for="year4"] {
+    color: var(--gray-500);
+    font-weight: 500;
+    margin-left: 3.33vw;
+    width: 0.468vw;
+}
+
+#add-student-form label[for="gender"] {
+    width: 3.43vw;
+    margin-left: 5.83vw;
+}
+
+#add-student-form label[for="male"],
+#add-student-form label[for="female"] {
+    color: var(--gray-500);
+    font-weight: 500;
+    margin-left: -0.5vw;
+    width: 0.468vw;
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5vh;
+}
+
+.radio-year,
+.radio-gender {
+    display: flex;
+    align-items: center;
+    gap: 0.83vw;
+}
+
+.radio-gender {
+    margin-left: 5.4vw;
+}
+
+.confirm-button {
+    background-color: var(--green-200);
+    color: var(--green-800);
+    font-family: 'Lexend Deca', sans-serif;
+    font-weight: 700;
+    font-size: calc(0.52vw + 0.925vh);
+    width: 6.25vw;
+    height: 3.7vh;
+    border: 0px;
+    border-radius: 0.625vw; 
+    margin: 0vh 1.66vw 0vh 12.916vw;
+    box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.25);
+}
+
+.confirm-button:disabled {
+    color: var(--green-300);
+    background-color: var(--green-100);
+    box-shadow: 0 0 0px 0px rgba(0, 0, 0, 0);
+}
+
+#add-course-form .confirm-button {
+    margin: 2vh 1.66vw 0vh 15vw;
+}
+
+#add-college-form .confirm-button {
+    margin: 2vh 1.66vw 0vh 23.33vw;
+}

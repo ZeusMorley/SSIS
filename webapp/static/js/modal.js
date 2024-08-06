@@ -7,28 +7,68 @@ function showAddModal() {
 
     if (activeTab === 'student') {
         modalContent = `
-            <h2>Add Student</h2>
             <form id="add-student-form">
-                <label for="student-id">Student ID:</label>
+                <label for="student-id">ID-Number:</label>
                 <input type="text" id="student-id" name="studentId"><br>
+
                 <label for="first-name">First Name:</label>
                 <input type="text" id="first-name" name="firstName"><br>
+
                 <label for="last-name">Last Name:</label>
                 <input type="text" id="last-name" name="lastName"><br>
+
                 <label for="course-name">Course Name:</label>
                 <input type="text" id="course-name" name="courseName"><br>
-                <label for="year">Year:</label>
-                <input type="text" id="year" name="year"><br>
-                <label for="gender">Gender:</label>
-                <input type="text" id="gender" name="gender"><br>
-                <label for="college-name">College Name:</label>
-                <input type="text" id="college-name" name="collegeName"><br>
-                <button type="submit">Add Student</button>
+
+
+                <div class="year-and-gender>">
+                    <label for="year">Year</label>
+                    <label for="gender">Gender:</label><br>
+                </div>
+                
+                <div class="radio-group">
+                    <div class="year1-and-male">
+                        <div class="radio-year">
+                            <label for="year1">1</label>
+                            <input type="radio" id="year1" name="year" value="1">
+                        </div>
+
+                        <div class="radio-gender">
+                            <input type="radio" id="male" name="gender" value="Male">
+                            <label for="male">Male</label><br>
+                        </div>
+                    </div>
+
+                    <div class="year2-and-female">
+                        <div class="radio-year">
+                            <label for="year2">2</label>
+                            <input type="radio" id="year2" name="year" value="2">
+                        </div>
+
+                        <div class="radio-gender">
+                            <input type="radio" id="female" name="gender" value="Female">
+                            <label for="female">Female</label><br>
+                        </div>
+                    </div>
+
+                    <div class="radio-year">
+                        <label for="year3">3</label>
+                        <input type="radio" id="year3" name="year" value="3">
+                    </div>
+                    
+                    <div class="radio-year">
+                        <label for="year4">4</label>
+                        <input type="radio" id="year4" name="year" value="4">
+                    </div>
+                </div>
+
+                <button type="submit" class="confirm-button"disabled>Confirm</button>
             </form>
         `;
+        modal.className = 'modal student-modal';
+
     } else if (activeTab === 'course') {
         modalContent = `
-            <h2>Add Course</h2>
             <form id="add-course-form">
                 <label for="course-code">Course Code:</label>
                 <input type="text" id="course-code" name="courseCode"><br>
@@ -36,20 +76,22 @@ function showAddModal() {
                 <input type="text" id="course-name" name="courseName"><br>
                 <label for="college-name">College Name:</label>
                 <input type="text" id="college-name" name="collegeName"><br>
-                <button type="submit">Add Course</button>
+                <button type="submit" class="confirm-button"disabled>Confirm</button>
             </form>
         `;
+        modal.className = 'modal course-modal';
+
     } else if (activeTab === 'college') {
         modalContent = `
-            <h2>Add College</h2>
             <form id="add-college-form">
                 <label for="college-code">College Code:</label>
                 <input type="text" id="college-code" name="collegeCode"><br>
                 <label for="college-name">College Name:</label>
                 <input type="text" id="college-name" name="collegeName"><br>
-                <button type="submit">Add College</button>
+                <button type="submit" class="confirm-button"disabled>Confirm</button>
             </form>
         `;
+        modal.className = 'modal college-modal';
     }
 
     modalBody.innerHTML = modalContent;
@@ -114,4 +156,6 @@ document.addEventListener('DOMContentLoaded', function() {
 //Edit - maka usab ug imong profile pic or i clear ang profile pic
 //default na pic if walay profile
 
+//Refresh idea
+//Clear the current rows and upload the new list without refreshing the window.
 
