@@ -35,7 +35,7 @@ function addRowClickListeners() {
             } else if (tabName === 'course') {
                 const courseCode = selectedRow.querySelector('.course-code').textContent.trim();
                 const courseName = selectedRow.querySelector('.course-name').textContent.trim();
-                // showCourseEditModal(courseCode, courseName);
+                showCourseEditModal(courseCode, courseName);
             }
         }
     });

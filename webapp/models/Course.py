@@ -79,3 +79,38 @@ def delete_course(course_code):
         cursor.close()
         conn.close()
 
+def update_course(course_data):
+    conn = get_mysql_connection()
+    cursor = conn.cursor()
+
+    try:
+        if course_data['courseCode'] != course_data['currentCourseCode']:
+            cursor.execute("""
+                SELECT COUNT(*) FROM course WHERE courseCode = %s
+            """, (course_data['courseCode'],))
+            exists = cursor.fetchone()[0]
+
+            if exists:
+                return {'success': False, 'message': 'Course code already exists.'}
+
+        cursor.execute("""
+            UPDATE course
+            SET courseCode = %s, courseName = %s, collegeId = (
+                SELECT id FROM college WHERE collegeCode = %s
+            )
+            WHERE courseCode = %s
+        """, (course_data['courseCode'], course_data['courseName'], course_data['collegeName'], course_data['currentCourseCode']))
+
+        conn.commit()
+        return {'success': True, 'message': 'Course updated successfully'}
+    
+    except mysql.connector.Error as e:
+        conn.rollback()
+        return {'success': False, 'message': str(e)}
+    
+    finally:
+        cursor.close()
+        conn.close()
+
+
+

@@ -5,6 +5,9 @@
 #add-course-form input#course-code,
 #add-course-form input#course-name,
 #add-course-form input#college-name,
+#edit-course-form input#course-code,
+#edit-course-form input#course-name,
+#edit-course-form input#college-name,
 #add-college-form input#college-code,
 #add-college-form input#college-name,
 #edit-college-form input#college-code,
@@ -19,7 +22,10 @@
 
 #add-course-form input#course-code,
 #add-course-form input#course-name,
-#add-course-form input#college-name {
+#add-course-form input#college-name,
+#edit-course-form input#course-code,
+#edit-course-form input#course-name,
+#edit-course-form input#college-name {
     width: 19.58vw;
 }
 
@@ -37,6 +43,9 @@
 #add-course-form label[for="course-code"],
 #add-course-form label[for="course-name"],
 #add-course-form label[for="college-name"],
+#edit-course-form label[for="course-code"],
+#edit-course-form label[for="course-name"],
+#edit-course-form label[for="college-name"],
 #add-college-form label[for="college-code"],
 #add-college-form label[for="college-name"],
 #edit-college-form label[for="college-code"],
@@ -120,7 +129,8 @@
     box-shadow: 0 0 0px 0px rgba(0, 0, 0, 0);
 }
 
-#add-course-form .confirm-button {
+#add-course-form .confirm-button,
+#edit-course-form .confirm-button {
     margin: 2vh 1.66vw 0vh 15vw;
 }
 
@@ -129,7 +139,8 @@
     margin: 2vh 1.66vw 0vh 23.33vw;
 }
 
-#add-course-form select#college-dropdown {
+#add-course-form select#college-dropdown,
+#edit-course-form select#college-dropdown {
     width: 19.58vw; 
     height: 3.7vh;
     border: 0.15vw solid;
@@ -140,6 +151,7 @@
     font-size: calc(0.52vw + 0.925vh);
 }
 
-#add-course-form select#college-dropdown option {
+#add-course-form select#college-dropdown option,
+#edit-course-form select#college-dropdown {
     font-size: calc(0.52vw + 0.925vh); 
 }
