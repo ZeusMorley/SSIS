@@ -60,6 +60,8 @@ function showConfirmationModal() {
             deleteSelectedRow('/college/delete-college', 'college');
         } else if (tabName === 'course') {
             deleteSelectedRow('/course/delete-course', 'course');
+        } else if (tabName === 'student') {
+            deleteSelectedRowStudent('/student/delete-student', 'student');
         }
         closeConfirmationModal();
     });
@@ -79,6 +81,7 @@ function showConfirmationModal() {
         }
     });
 }
+
 
 function closeConfirmationModal() {
     const modal = document.getElementById('delete-confirmation-modal');
@@ -119,6 +122,40 @@ function deleteSelectedRow(url, type) {
     }
 }
 
+function deleteSelectedRowStudent(url, type) {
+    if (selectedRow) {
+        const id = selectedRow.querySelector(`.${type}-id`).textContent.trim();
+
+        fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ [`${type}Id`]: id })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                selectedRow.remove();
+                selectedRow = null;
+                showErrorModal(data.message, data.type);
+                setTimeout(() => {
+                    location.reload();
+                }, 3000);
+            } else {
+                showErrorModal(data.message, data.type);
+                setTimeout(() => {
+                    location.reload();
+                }, 3000);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showErrorModal(data.message, data.type);
+        });
+    }
+}
+
 
 function renderStudentRows() {
     let rowsHtml = '';
@@ -131,8 +168,9 @@ function renderStudentRows() {
                         alt="Profile Picture" 
                         onerror="this.onerror=null; this.src='https://res.cloudinary.com/dmvwcolfi/image/upload/v1722969919/student_photos/up5upsjz6e86isvae6qw.jpg';" />
                 </div>
-
-                <div class="id-number">${student.studentId}</div>
+                <div class="id-number">
+                    <div class="student-id">${student.studentId}</div>
+                </div>
                 <div class="first-last-name">${student.firstName}<br>${student.lastName}</div>
                 <div class="course">${student.courseName}<br>(${student.courseCode})</div>
                 <div class="year">${student.year}</div>

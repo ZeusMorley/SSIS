@@ -53,3 +53,17 @@ def add_student(data):
         conn.close()
 
 
+def delete_student(student_id):
+    conn = get_mysql_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("DELETE FROM student WHERE studentId = %s", (student_id,))
+        conn.commit()
+
+        return {"success": True, "message": "Student deleted successfully.", "type": "success"}
+        
+    except mysql.connector.Error as e:
+        return {"success": False, "message": str(e), "type": "error"}
+    finally:
+        cursor.close()
+        conn.close()
