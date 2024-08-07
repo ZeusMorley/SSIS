@@ -89,6 +89,9 @@ function deleteSelectedRow() {
                 selectedRow.remove();
                 selectedRow = null;
                 showErrorModal(data.message, data.type);
+                setTimeout(() => {
+                    location.reload();
+                }, 3000);
             } else {
                 showErrorModal(data.message, data.type);
             }
