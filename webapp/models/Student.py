@@ -1,6 +1,14 @@
 from flask import current_app
 from webapp.db import get_mysql_connection
 import mysql.connector
+import re
+
+def validate_student_id(student_id):
+    pattern = r'^\d{4}-\d{4}$' 
+    if re.match(pattern, student_id):
+        return True
+    return False
+
 
 def get_all_students():
     conn = get_mysql_connection()
@@ -28,7 +36,10 @@ def add_student(data):
     required_fields = ['studentId', 'firstName', 'lastName', 'gender', 'year', 'courseName']
     for field in required_fields:
         if field not in data or not data[field]:
-            return {"success": False, "message": "All fields are  required.", "type": "warning"}
+            return {"success": False, "message": "All fields are required.", "type": "warning"}
+    
+    if not validate_student_id(data['studentId']):
+        return {"success": False, "message": "Student ID must be in the format YYYY-NNNN.", "type": "warning"}
 
     conn = get_mysql_connection()
     cursor = conn.cursor()
@@ -51,6 +62,7 @@ def add_student(data):
     finally:
         cursor.close()
         conn.close()
+
 
 
 def delete_student(student_id):
