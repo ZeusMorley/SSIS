@@ -237,6 +237,9 @@ function attachCollegeFormSubmitListener() {
                         location.reload();
                     }, 3000);
                 } else {
+                    setTimeout(() => {
+                        location.reload();
+                    }, 3000);
                     showErrorModal(data.message, data.type);
                 }
             })

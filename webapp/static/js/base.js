@@ -13,9 +13,9 @@ function addRowClickListeners() {
 
             if (!isSelected) {
                 row.classList.add('selected');
-                selectedRow = row; // Store the selected row
+                selectedRow = row;
             } else {
-                selectedRow = null; // Clear the selection
+                selectedRow = null;
             }
 
             const hasSelection = selectedRow !== null;
@@ -26,9 +26,17 @@ function addRowClickListeners() {
 
     editButton.addEventListener('click', function() {
         if (selectedRow) {
-            const collegeCode = selectedRow.querySelector('.college-code').textContent.trim();
-            const collegeName = selectedRow.querySelector('.college-name').textContent.trim();
-            showCollegeEditModal(collegeCode, collegeName);
+            const tabName = document.querySelector('.tab-button.active').id.replace('-tab', '');
+            if (tabName === 'college') {
+                const collegeCode = selectedRow.querySelector('.college-code').textContent.trim();
+                const collegeName = selectedRow.querySelector('.college-name').textContent.trim();
+                showCollegeEditModal(collegeCode, collegeName);
+
+            } else if (tabName === 'course') {
+                const courseCode = selectedRow.querySelector('.course-code').textContent.trim();
+                const courseName = selectedRow.querySelector('.course-name').textContent.trim();
+                // showCourseEditModal(courseCode, courseName);
+            }
         }
     });
 
@@ -47,7 +55,12 @@ function showConfirmationModal() {
     modal.style.display = 'block';
 
     confirmButton.addEventListener('click', function() {
-        deleteSelectedRow();
+        const tabName = document.querySelector('.tab-button.active').id.replace('-tab', '');
+        if (tabName === 'college') {
+            deleteSelectedRow('/college/delete-college', 'college');
+        } else if (tabName === 'course') {
+            deleteSelectedRow('/course/delete-course', 'course');
+        }
         closeConfirmationModal();
     });
 
@@ -72,16 +85,16 @@ function closeConfirmationModal() {
     modal.style.display = 'none';
 }
 
-function deleteSelectedRow() {
+function deleteSelectedRow(url, type) {
     if (selectedRow) {
-        const collegeCode = selectedRow.querySelector('.college-code').textContent.trim();
+        const code = selectedRow.querySelector(`.${type}-code`).textContent.trim();
 
-        fetch('/college/delete-college', {
+        fetch(url, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ collegeCode })
+            body: JSON.stringify({ [`${type}Code`]: code })
         })
         .then(response => response.json())
         .then(data => {
@@ -94,11 +107,14 @@ function deleteSelectedRow() {
                 }, 3000);
             } else {
                 showErrorModal(data.message, data.type);
+                setTimeout(() => {
+                    location.reload();
+                }, 3000);
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            showErrorModal('An unexpected error occurred.', 'error');
+            showErrorModal(data.message, data.type);
         });
     }
 }

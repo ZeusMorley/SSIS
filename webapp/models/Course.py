@@ -56,3 +56,26 @@ def add_course(course_data):
         cursor.close()
         conn.close()
 
+
+def delete_course(course_code):
+    conn = get_mysql_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("""
+            DELETE FROM course
+            WHERE courseCode = %s
+        """, (course_code,))
+        
+        conn.commit()
+        return {'success': True, 'message': 'Course deleted successfully.'}
+    
+    except Exception as e:
+        print(f"Error: {e}")
+        conn.rollback()
+        return {'success': False, 'message': 'Failed to delete course.'}
+    
+    finally:
+        cursor.close()
+        conn.close()
+
