@@ -14,6 +14,23 @@ document.addEventListener('DOMContentLoaded', () => {
     populateCollegeDropdown();
 });
 
+function populateCourseDropdown() {
+    const courseDropdown = document.getElementById('course-dropdown');
+    if (!courseDropdown) return;
+
+    courses.forEach(course => {
+        const option = document.createElement('option');
+        option.value = course.courseCode;
+        option.textContent = `${course.courseCode} - ${course.courseName}`;
+        courseDropdown.appendChild(option);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    populateCourseDropdown();
+});
+
+
 function attachCourseFormSubmitListener() {
     const form = document.getElementById('add-course-form');
     if (form) {
@@ -28,6 +45,37 @@ function attachCourseFormSubmitListener() {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(courseData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showErrorModal(data.message, data.type);
+                    setTimeout(() => {
+                        location.reload();
+                    }, 3000);
+                } else {
+                    showErrorModal(data.message, data.type);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    }
+}
+
+function attachStudentFormSubmitListener() {
+    const form = document.getElementById('add-student-form');
+    if (form) {
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(form);
+            const studentData = Object.fromEntries(formData.entries());
+
+            fetch('/student/add-student', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(studentData)
             })
             .then(response => response.json())
             .then(data => {
@@ -177,8 +225,9 @@ function showAddModal() {
                 <input type="text" id="last-name" name="lastName"><br>
 
                 <label for="course-name">Course Name:</label>
-                <input type="text" id="course-name" name="courseName"><br>
-
+                <select id="course-dropdown" name="courseName">
+                </select><br>
+                
                 <div class="year-and-gender">
                     <label for="year">Year</label>
                     <label for="gender">Gender:</label><br>
@@ -224,6 +273,9 @@ function showAddModal() {
             </form>
         `;
         modal.className = 'modal student-modal';
+        modalBody.innerHTML = modalContent;
+        populateCourseDropdown();
+        attachStudentFormSubmitListener();
 
     } else if (activeTab === 'course') {
         modalContent = `
@@ -231,7 +283,7 @@ function showAddModal() {
                 <label for="course-code">Course Code:</label>
                 <input type="text" id="course-code" name="courseCode"><br>
                 <label for="course-name">Course Name:</label>
-                <input type="text" id="course-name" name="courseName"><br>
+                <select id="course-dropdown" name="courseName"></select><br>
                 <label for="college-name">College Name:</label>
                 <select id="college-dropdown" name="collegeName">
                 </select><br>
@@ -306,6 +358,7 @@ function attachCollegeFormSubmitListener() {
         });
     }
 }
+
 
 
 
