@@ -99,7 +99,12 @@ function renderStudentRows() {
         rowsHtml += `
             <div class="table-row">
                 <div class="index-column">${index + 1}</div>
-                <div class="profile-picture"><img src="${student.cloudinary_url}" alt="Profile Picture" /></div>
+                <div class="profile-picture">
+                    <img src="${student.cloudinary_url}" 
+                        alt="Profile Picture" 
+                        onerror="this.onerror=null; this.src='https://res.cloudinary.com/dmvwcolfi/image/upload/v1722969919/student_photos/up5upsjz6e86isvae6qw.jpg';" />
+                </div>
+
                 <div class="id-number">${student.studentId}</div>
                 <div class="first-last-name">${student.firstName}<br>${student.lastName}</div>
                 <div class="course">${student.courseName}<br>(${student.courseCode})</div>
