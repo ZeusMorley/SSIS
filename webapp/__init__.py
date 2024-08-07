@@ -23,12 +23,12 @@ def create_app():
 
     from .routes.base_bp import base_bp
     from .routes.college_bp import college_bp
-    # from .routes.course_bp import course
+    from .routes.course_bp import course_bp
     # from .routes.student_bp import student
 
     app.register_blueprint(base_bp, url_prefix='/')
     app.register_blueprint(college_bp, url_prefix='/college')
-    # app.register_blueprint(course, url_prefix='/course')
+    app.register_blueprint(course_bp, url_prefix='/course')
     # app.register_blueprint(student, url_prefix='/student')
 
     return app

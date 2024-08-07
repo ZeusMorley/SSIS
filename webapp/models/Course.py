@@ -22,3 +22,37 @@ def get_all_courses():
     cursor.close()
     conn.close()
     return courses
+
+
+
+def add_course(course_data):
+    """Add a new course to the database."""
+    conn = get_mysql_connection()
+    cursor = conn.cursor()
+
+    if len(course_data['courseCode']) > 8:
+        return {'success': False, 'message': 'Course code too long. Must be up to 8 characters.'}
+    
+    try:
+        cursor.execute("""
+            INSERT INTO course (courseCode, courseName, collegeId)
+            VALUES (%s, %s, (
+                SELECT id FROM college WHERE collegeCode = %s
+            ))
+        """, (course_data['courseCode'], course_data['courseName'], course_data['collegeName']))
+
+        conn.commit()
+        return {'success': True, 'message': 'Course added successfully'}
+    
+    except mysql.connector.IntegrityError as e:
+        conn.rollback()
+        return {'success': False, 'message': 'Course code already exists.'}
+    
+    except Exception as e:
+        conn.rollback()
+        return {'success': False, 'message': str(e)}
+    
+    finally:
+        cursor.close()
+        conn.close()
+
