@@ -1,3 +1,50 @@
+function populateCollegeDropdown() {
+    const collegeDropdown = document.getElementById('college-dropdown');
+    if (!collegeDropdown) return;
+
+    colleges.forEach(college => {
+        const option = document.createElement('option');
+        option.value = college.collegeCode;
+        option.textContent = `${college.collegeCode} - ${college.collegeName}`;
+        collegeDropdown.appendChild(option);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    populateCollegeDropdown();
+});
+
+function attachCourseFormSubmitListener() {
+    const form = document.getElementById('add-course-form');
+    if (form) {
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(form);
+            const courseData = Object.fromEntries(formData.entries());
+
+            fetch('/course/add-course', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(courseData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showErrorModal(data.message, data.type);
+                    setTimeout(() => {
+                        location.reload();
+                    }, 3000);
+                } else {
+                    showErrorModal(data.message, data.type);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    }
+}
+
 function showCollegeEditModal(collegeCode, collegeName) {
     const modal = document.getElementById('add-modal');
     const modalBody = document.getElementById('modal-body');
@@ -73,12 +120,11 @@ function showAddModal() {
                 <label for="course-name">Course Name:</label>
                 <input type="text" id="course-name" name="courseName"><br>
 
-
-                <div class="year-and-gender>">
+                <div class="year-and-gender">
                     <label for="year">Year</label>
                     <label for="gender">Gender:</label><br>
                 </div>
-                
+
                 <div class="radio-group">
                     <div class="year1-and-male">
                         <div class="radio-year">
@@ -108,7 +154,7 @@ function showAddModal() {
                         <label for="year3">3</label>
                         <input type="radio" id="year3" name="year" value="3">
                     </div>
-                    
+
                     <div class="radio-year">
                         <label for="year4">4</label>
                         <input type="radio" id="year4" name="year" value="4">
@@ -128,11 +174,15 @@ function showAddModal() {
                 <label for="course-name">Course Name:</label>
                 <input type="text" id="course-name" name="courseName"><br>
                 <label for="college-name">College Name:</label>
-                <input type="text" id="college-name" name="collegeName"><br>
+                <select id="college-dropdown" name="collegeName">
+                </select><br>
                 <button type="submit" class="confirm-button" id="course-confirm">Confirm</button>
             </form>
         `;
         modal.className = 'modal course-modal';
+        modalBody.innerHTML = modalContent;
+        populateCollegeDropdown();
+        attachCourseFormSubmitListener();
 
     } else if (activeTab === 'college') {
         modalContent = `
@@ -145,11 +195,11 @@ function showAddModal() {
             </form>
         `;
         modal.className = 'modal college-modal';
+        modalBody.innerHTML = modalContent;
+        attachCollegeFormSubmitListener();
     }
 
-    modalBody.innerHTML = modalContent;
     modal.style.display = "block";
-    attachCollegeFormSubmitListener();
 }
 
 function closeModal() {
@@ -194,6 +244,7 @@ function attachCollegeFormSubmitListener() {
         });
     }
 }
+
 
 
 // Reminder:

@@ -128,3 +128,18 @@
 #edit-college-form .confirm-button {
     margin: 2vh 1.66vw 0vh 23.33vw;
 }
+
+#add-course-form select#college-dropdown {
+    width: 19.58vw; 
+    height: 3.7vh;
+    border: 0.15vw solid;
+    border-radius: 0.83vw;
+    border-color: var(--blue-green-500);
+    margin: 0.37vh 1.67vw 1.85vh 1.67vw;
+    background-color: white;
+    font-size: calc(0.52vw + 0.925vh);
+}
+
+#add-course-form select#college-dropdown option {
+    font-size: calc(0.52vw + 0.925vh); 
+}
