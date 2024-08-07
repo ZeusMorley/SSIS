@@ -68,3 +68,21 @@ def delete_college(college_code):
     except Exception as e:
         print(f"Error: {e}")
         return False
+
+
+
+def update_college(current_college_code, new_college_code, new_college_name):
+    try:
+        conn = get_mysql_connection()
+        cursor = conn.cursor()
+
+        query = "UPDATE college SET collegeCode = %s, collegeName = %s WHERE collegeCode = %s"
+        cursor.execute(query, (new_college_code, new_college_name, current_college_code))
+        
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return True
+    except Exception as e:
+        print(f"Error: {e}")
+        return False

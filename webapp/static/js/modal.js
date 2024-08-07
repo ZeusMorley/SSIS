@@ -1,3 +1,56 @@
+function showCollegeEditModal(collegeCode, collegeName) {
+    const modal = document.getElementById('add-modal');
+    const modalBody = document.getElementById('modal-body');
+
+    const modalContent = `
+        <form id="edit-college-form">
+            <label for="college-code">College Code:</label>
+            <input type="text" id="college-code" name="newCollegeCode" value="${collegeCode}"><br>
+            <label for="college-name">College Name:</label>
+            <input type="text" id="college-name" name="newCollegeName" value="${collegeName}"><br>
+            <input type="hidden" id="current-college-code" name="currentCollegeCode" value="${collegeCode}">
+            <button type="submit" class="confirm-button" id="college-confirm">Confirm</button>
+        </form>
+    `;
+
+    modalBody.innerHTML = modalContent;
+    modal.className = 'modal college-modal';
+    modal.style.display = "block";
+
+    attachEditCollegeFormSubmitListener();
+}
+
+function attachEditCollegeFormSubmitListener() {
+    const form = document.getElementById('edit-college-form');
+    if (form) {
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(form);
+            const collegeData = Object.fromEntries(formData.entries());
+
+            fetch('/college/update-college', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(collegeData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showErrorModal(data.message, data.type);
+                    setTimeout(() => {
+                        location.reload();
+                    }, 3000);
+                } else {
+                    showErrorModal(data.message, data.type);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    }
+}
+
 function showAddModal() {
     const modal = document.getElementById('add-modal');
     const modalBody = document.getElementById('modal-body');

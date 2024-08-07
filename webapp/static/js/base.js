@@ -24,6 +24,14 @@ function addRowClickListeners() {
         });
     });
 
+    editButton.addEventListener('click', function() {
+        if (selectedRow) {
+            const collegeCode = selectedRow.querySelector('.college-code').textContent.trim();
+            const collegeName = selectedRow.querySelector('.college-name').textContent.trim();
+            showCollegeEditModal(collegeCode, collegeName);
+        }
+    });
+
     deleteButton.addEventListener('click', function() {
         if (selectedRow) {
             showConfirmationModal();
