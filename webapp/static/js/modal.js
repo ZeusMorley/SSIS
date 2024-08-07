@@ -283,7 +283,7 @@ function showAddModal() {
                 <label for="course-code">Course Code:</label>
                 <input type="text" id="course-code" name="courseCode"><br>
                 <label for="course-name">Course Name:</label>
-                <select id="course-dropdown" name="courseName"></select><br>
+                <input type="text" id="course-name" name="courseName"><br>\
                 <label for="college-name">College Name:</label>
                 <select id="college-dropdown" name="collegeName">
                 </select><br>
