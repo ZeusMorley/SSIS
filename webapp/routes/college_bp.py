@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from webapp.models.College import add_college, delete_college, check_if_has_courses, update_college
+from webapp.models.College import add_college, delete_college, check_if_has_courses, update_college, check_college_code_exists
 
 college_bp = Blueprint('college_bp', __name__)
 
@@ -47,6 +47,9 @@ def update_college_route():
 
     if not current_college_code or not new_college_code or not new_college_name:
         return jsonify({'success': False, 'message': 'All fields must be filled.', 'type': 'warning'}), 400
+
+    if current_college_code != new_college_code and check_college_code_exists(new_college_code):
+        return jsonify({'success': False, 'message': 'That college code already exists.', 'type': 'default'}), 400
 
     success = update_college(current_college_code, new_college_code, new_college_name)
 

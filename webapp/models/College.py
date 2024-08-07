@@ -69,6 +69,22 @@ def delete_college(college_code):
         print(f"Error: {e}")
         return False
 
+def check_college_code_exists(college_code):
+    try:
+        conn = get_mysql_connection()
+        cursor = conn.cursor()
+
+        query = "SELECT COUNT(*) FROM college WHERE collegeCode = %s"
+        cursor.execute(query, (college_code,))
+        count = cursor.fetchone()[0]
+
+        cursor.close()
+        conn.close()
+        
+        return count > 0
+    except Exception as e:
+        print(f"Error: {e}")
+        return False
 
 
 def update_college(current_college_code, new_college_code, new_college_name):
