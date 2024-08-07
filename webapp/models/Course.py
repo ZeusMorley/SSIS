@@ -63,6 +63,16 @@ def delete_course(course_code):
 
     try:
         cursor.execute("""
+            SELECT COUNT(*) FROM student WHERE courseId = (
+                SELECT id FROM course WHERE courseCode = %s
+            )
+        """, (course_code,))
+        student_count = cursor.fetchone()[0]
+
+        if student_count > 0:
+            return {'success': False, 'message': 'Cannot delete course. There are students enroll in this course.'}
+
+        cursor.execute("""
             DELETE FROM course
             WHERE courseCode = %s
         """, (course_code,))
@@ -78,6 +88,7 @@ def delete_course(course_code):
     finally:
         cursor.close()
         conn.close()
+
 
 def update_course(course_data):
     conn = get_mysql_connection()

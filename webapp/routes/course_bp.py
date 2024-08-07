@@ -25,7 +25,7 @@ def delete_course_route():
     if result['success']:
         return jsonify({'success': True, 'message': result['message'], 'type': 'success'}), 200
     else:
-        return jsonify({'success': False, 'message': result['message'], 'type': 'error'}), 500
+        return jsonify({'success': False, 'message': result['message'], 'type': 'default'}), 500
 
 
 @course_bp.route('/update-course', methods=['PUT'])
