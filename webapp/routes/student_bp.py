@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from webapp.models.Student import add_student, delete_student
+from webapp.models.Student import add_student, delete_student, update_student
 
 student_bp = Blueprint('student_bp', __name__)
 
@@ -19,3 +19,13 @@ def delete_student_route():
         return jsonify({'success': True, 'message': result['message'], 'type': 'success'}), 200
     else:
         return jsonify({"success": False, "message": "Student ID is required", "type": "error"})
+    
+@student_bp.route('/update-student', methods=['PUT'])
+def update_student_route():
+    data = request.get_json()
+    result = update_student(data)
+    
+    if result['success']:
+        return jsonify({'success': True, 'message': result['message'], 'type': 'success'})
+    else:
+        return jsonify({'success': False, 'message': result['message'], 'type': 'warning'}), 400

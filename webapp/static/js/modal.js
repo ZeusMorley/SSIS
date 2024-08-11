@@ -204,6 +204,85 @@ function attachEditCourseFormSubmitListener() {
     }
 }
 
+function showStudentEditModal(studentId, firstName, lastName, gender, year, courseCode, courseName) {
+    const modal = document.getElementById('add-modal');
+    const modalBody = document.getElementById('modal-body');
+
+    const modalContent = `
+        <form id="edit-student-form">
+            <label for="student-id">ID Number:</label>
+            <input type="text" id="student-id" name="studentId" value="${studentId}" readonly><br>
+            
+            <label for="first-name">First Name:</label>
+            <input type="text" id="first-name" name="firstName" value="${firstName}"><br>
+            
+            <label for="last-name">Last Name:</label>
+            <input type="text" id="last-name" name="lastName" value="${lastName}"><br>
+            
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender">
+                <option value="Male" ${gender === "Male" ? "selected" : ""}>Male</option>
+                <option value="Female" ${gender === "Female" ? "selected" : ""}>Female</option>
+            </select><br>
+
+            <label for="year">Year:</label>
+            <select id="year" name="year">
+                <option value="1" ${year === "1" ? "selected" : ""}>1</option>
+                <option value="2" ${year === "2" ? "selected" : ""}>2</option>
+                <option value="3" ${year === "3" ? "selected" : ""}>3</option>
+                <option value="4" ${year === "4" ? "selected" : ""}>4</option>
+            </select><br>
+
+            <label for="course-name">Course:</label>
+            <select id="course-dropdown" name="courseCode">
+            </select><br>
+            
+            <input type="hidden" id="current-student-id" name="currentStudentId" value="${studentId}">
+            <button type="submit" class="confirm-button" id="student-confirm">Confirm</button>
+        </form>
+    `;
+
+    modalBody.innerHTML = modalContent;
+    modal.className = 'modal student-modal';
+    modal.style.display = "block";
+
+    populateCourseDropdown(courseCode);
+
+    attachEditStudentFormSubmitListener(studentId);
+}
+
+
+function attachEditStudentFormSubmitListener() {
+    const form = document.getElementById('edit-student-form');
+    if (form) {
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(form);
+            const studentData = Object.fromEntries(formData.entries());
+
+            fetch(`/student/update-student`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(studentData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showErrorModal(data.message, data.type);
+                    setTimeout(() => {
+                        location.reload();
+                    }, 3000);
+                } else {
+                    showErrorModal(data.message, data.type);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    }
+}
+
 
 function showAddModal() {
     const modal = document.getElementById('add-modal');

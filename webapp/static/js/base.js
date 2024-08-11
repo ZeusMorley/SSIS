@@ -36,6 +36,15 @@ function addRowClickListeners() {
                 const courseCode = selectedRow.querySelector('.course-code').textContent.trim();
                 const courseName = selectedRow.querySelector('.course-name').textContent.trim();
                 showCourseEditModal(courseCode, courseName);
+
+            } else if (tabName === 'student') {
+                const studentId = selectedRow.querySelector('.student-id').textContent.trim();
+                const firstName = selectedRow.querySelector('.first-name').textContent.trim();
+                const lastName = selectedRow.querySelector('.last-name').textContent.trim();
+                const gender = selectedRow.querySelector('.gender').textContent.trim();
+                const year = selectedRow.querySelector('.year').textContent.trim();
+                showStudentEditModal(studentId, firstName, lastName, gender, year);
+                console.log(studentId)
             }
         }
     });
@@ -171,7 +180,10 @@ function renderStudentRows() {
                 <div class="id-number">
                     <div class="student-id">${student.studentId}</div>
                 </div>
-                <div class="first-last-name">${student.firstName}<br>${student.lastName}</div>
+                <div class="first-last-name">
+                    <div class="first-name">${student.firstName}</div>
+                    <div class="last-name"> ${student.lastName}</div>
+                </div>
                 <div class="course">${student.courseName}<br>(${student.courseCode})</div>
                 <div class="year">${student.year}</div>
                 <div class="gender">${student.gender}</div>

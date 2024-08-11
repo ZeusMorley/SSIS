@@ -22,8 +22,13 @@ function showTab(tabName) {
         headersHtml = `
             <div class="index-column"></div>
             <div class="profile-picture">Profile Picture</div>
-            <div class="id-number">Id Number</div>
-            <div class="first-last-name">First Name<br>Last Name</div>
+            <div class="id-number">
+                <div class="student-id">Id Number</div>
+            </div>
+            <div class="first-last-name">
+                <div class="first-name">First Name</div>
+                <div class="last-name">Last Name</div>
+            </div>
             <div class="course">Course</div>
             <div class="year">Year</div>
             <div class="gender">Gender</div>

@@ -79,3 +79,85 @@ def delete_student(student_id):
     finally:
         cursor.close()
         conn.close()
+
+
+
+def update_student(student_data):
+    conn = get_mysql_connection()
+    cursor = conn.cursor()
+    
+    try:
+        if student_data['studentId'] != student_data['currentStudentId']:
+            cursor.execute(""" 
+                SELECT COUNT(*) FROM student where studentId = %s
+            """, (student_data['studentId'],))
+            exists = cursor.fetchone()[0]
+
+            if exists:
+                return {'success': False, 'message': 'Student ID already exists.'}
+
+        cursor.execute("""  
+            UPDATE student
+            SET studentId = %s, firstName = %s, lastName = %s, gender = %s, year =  %s, courseId = (
+                SELECT id FROM course where courseCode = %s
+            )
+            WHERE studentId = %s
+        """, (student_data['studentId'], student_data['firstName'], student_data['lastName'], student_data['gender'], student_data['year'], student_data['courseCode'], student_data['currentStudentId']))                
+
+        conn.commit()
+        return {'success': True, 'message': 'Student updated successfully'}
+    
+    except mysql.connector.Error as e:
+        conn.rollback()
+        return {'success': False, 'message': str(e)}
+    finally:
+        cursor.close()
+        conn.close
+
+    # if not validate_student_id(student_id):
+    #     return {"success": False, "message": "Invalid student ID format.", "type": "warning"}
+    
+    # query_parts = []
+    # params = []
+    
+    # if 'firstName' in data:
+    #     query_parts.append("firstName = %s")
+    #     params.append(data['firstName'])
+    
+    # if 'lastName' in data:
+    #     query_parts.append("lastName = %s")
+    #     params.append(data['lastName'])
+    
+    # if 'gender' in data:
+    #     query_parts.append("gender = %s")
+    #     params.append(data['gender'])
+    
+    # if 'year' in data:
+    #     query_parts.append("year = %s")
+    #     params.append(data['year'])
+    
+    # if 'courseCode' in data:
+    #     query_parts.append("courseId = (SELECT id FROM course WHERE courseCode = %s)")
+    #     params.append(data['courseCode'])
+    
+    # if not query_parts:
+    #     return {"success": False, "message": "No valid fields provided for update.", "type": "error"}
+    
+    # query = "UPDATE student SET " + ", ".join(query_parts) + " WHERE studentId = %s"
+    # params.append(student_id)
+    
+    # try:
+    #     cursor.execute(query, tuple(params))
+    #     conn.commit()
+        
+    #     if cursor.rowcount == 0:
+    #         return {"success": False, "message": "Student ID not found.", "type": "warning"}
+        
+    #     return {"success": True, "message": "Student updated successfully!", "type": "success"}
+    
+    # except mysql.connector.Error as e:
+    #     return {"success": False, "message": str(e), "type": "error"}
+    
+    # finally:
+    #     cursor.close()
+    #     conn.close()
