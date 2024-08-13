@@ -47,8 +47,8 @@ def add_student(data, file=None):
     cloudinary_url = None
     if file:
         try:
-            upload_result = cloudinary.uploader.upload(file)
-            cloudinary_url = upload_result.get('url')
+            upload_result = cloudinary.uploader.upload(file, folder='student_photos')
+            cloudinary_url = upload_result.get('secure_url')
         except Exception as e:
             return {"success": False, "message": f"Photo upload failed: {str(e)}", "type": "error"}
 

@@ -205,3 +205,11 @@
 #edit-student-form select#course-dropdown {
     font-size: calc(0.52vw + 0.925vh); 
 }
+
+#add-student-form img#photo-preview {
+    display: block;
+    max-height: 16vh;
+    max-width: 16vh;
+    margin-top: 0.5vh;
+    margin-left: 1.67vw;
+}

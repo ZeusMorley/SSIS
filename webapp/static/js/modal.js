@@ -1,3 +1,22 @@
+function previewPhoto() {
+    const fileInput = document.getElementById('student-photo');
+    const photoPreview = document.getElementById('photo-preview');
+
+    if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            photoPreview.src = e.target.result;
+            photoPreview.style.display = 'block';
+        }
+
+        reader.readAsDataURL(fileInput.files[0]); 
+    } else {
+        photoPreview.style.display = 'none';
+    }
+}
+
+
 function populateCollegeDropdown() {
     const collegeDropdown = document.getElementById('college-dropdown');
     if (!collegeDropdown) return;
@@ -375,7 +394,9 @@ function showAddModal() {
                 </div>
 
                 <label for="student-photo">Upload Photo:</label>
-                <input type="file" id="student-photo" name="studentPhoto" accept="image/*"><br>
+                <input type="file" id="student-photo" name="studentPhoto" accept="image/*" onchange="previewPhoto()"><br>
+                
+                <img id="photo-preview" src="https://res.cloudinary.com/dmvwcolfi/image/upload/v1722969919/student_photos/up5upsjz6e86isvae6qw.jpg">
                 
                 <button type="submit" class="confirm-button" id="student-confirm">Confirm</button>
             </form>
