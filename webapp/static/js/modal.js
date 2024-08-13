@@ -67,15 +67,12 @@ function attachStudentFormSubmitListener() {
     if (form) {
         form.addEventListener('submit', function(event) {
             event.preventDefault();
+
             const formData = new FormData(form);
-            const studentData = Object.fromEntries(formData.entries());
 
             fetch('/student/add-student', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(studentData)
+                body: formData
             })
             .then(response => response.json())
             .then(data => {
@@ -92,6 +89,7 @@ function attachStudentFormSubmitListener() {
         });
     }
 }
+
 
 function showCollegeEditModal(collegeCode, collegeName) {
     const modal = document.getElementById('add-modal');

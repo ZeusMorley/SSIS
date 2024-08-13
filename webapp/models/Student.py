@@ -2,6 +2,7 @@ from flask import current_app
 from webapp.db import get_mysql_connection
 import mysql.connector
 import re
+import cloudinary.uploader
 
 def validate_student_id(student_id):
     pattern = r'^\d{4}-\d{4}$' 
@@ -32,7 +33,9 @@ def get_all_students():
     conn.close()
     return students
 
-def add_student(data):
+
+
+def add_student(data, file=None):
     required_fields = ['studentId', 'firstName', 'lastName', 'gender', 'year', 'courseName']
     for field in required_fields:
         if field not in data or not data[field]:
@@ -41,13 +44,21 @@ def add_student(data):
     if not validate_student_id(data['studentId']):
         return {"success": False, "message": "Student ID must be in the format YYYY-NNNN.", "type": "warning"}
 
+    cloudinary_url = None
+    if file:
+        try:
+            upload_result = cloudinary.uploader.upload(file)
+            cloudinary_url = upload_result.get('url')
+        except Exception as e:
+            return {"success": False, "message": f"Photo upload failed: {str(e)}", "type": "error"}
+
     conn = get_mysql_connection()
     cursor = conn.cursor()
     try:
         cursor.execute("""
-            INSERT INTO student (studentId, firstName, lastName, gender, year, courseId)
-            VALUES (%s, %s, %s, %s, %s, (SELECT id FROM course WHERE courseCode = %s))
-        """, (data['studentId'], data['firstName'], data['lastName'], data['gender'], data['year'], data['courseName']))
+            INSERT INTO student (studentId, firstName, lastName, gender, year, courseId, cloudinary_url)
+            VALUES (%s, %s, %s, %s, %s, (SELECT id FROM course WHERE courseCode = %s), %s)
+        """, (data['studentId'], data['firstName'], data['lastName'], data['gender'], data['year'], data['courseName'], cloudinary_url))
         conn.commit()
         return {"success": True, "message": "Student added successfully!", "type": "success"}
     

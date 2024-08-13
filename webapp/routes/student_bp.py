@@ -5,8 +5,9 @@ student_bp = Blueprint('student_bp', __name__)
 
 @student_bp.route('/add-student', methods=['POST'])
 def add_student_route():
-    data = request.get_json()
-    result = add_student(data)
+    data = request.form.to_dict()
+    file = request.files.get('studentPhoto')
+    result = add_student(data, file)
     return jsonify(result)
 
 @student_bp.route('/delete-student', methods=['DELETE'])
