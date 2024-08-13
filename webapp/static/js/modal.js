@@ -263,7 +263,7 @@ function showStudentEditModal(studentId, firstName, lastName, gender, year, cour
                     <input type="radio" id="year4" name="year" value="4" ${year === "4" ? "checked" : ""}>
                 </div>
             </div>
-
+            
             <input type="hidden" id="current-student-id" name="currentStudentId" value="${studentId}">
             <button type="submit" class="confirm-button" id="student-confirm">Confirm</button>
         </form>
@@ -321,7 +321,7 @@ function showAddModal() {
 
     if (activeTab === 'student') {
         modalContent = `
-            <form id="add-student-form">
+            <form id="add-student-form" enctype="multipart/form-data">
                 <label for="student-id">ID-Number:</label>
                 <input type="text" id="student-id" name="studentId"><br>
 
@@ -376,6 +376,9 @@ function showAddModal() {
                     </div>
                 </div>
 
+                <label for="student-photo">Upload Photo:</label>
+                <input type="file" id="student-photo" name="studentPhoto" accept="image/*"><br>
+                
                 <button type="submit" class="confirm-button" id="student-confirm">Confirm</button>
             </form>
         `;

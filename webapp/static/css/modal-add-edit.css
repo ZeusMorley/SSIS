@@ -51,6 +51,7 @@
 #add-student-form label[for="first-name"],
 #add-student-form label[for="last-name"],
 #add-student-form label[for="course-name"],
+#add-student-form label[for="student-photo"],
 
 #edit-student-form label[for="student-id"],
 #edit-student-form label[for="first-name"],
@@ -120,6 +121,10 @@
     font-weight: 500;
     margin-left: -0.5vw;
     width: 0.468vw;
+}
+
+#add-student-form input#student-photo {
+    margin: 0.37vh 1.67vw 1.85vh 1.67vw;
 }
 
 .radio-group {
