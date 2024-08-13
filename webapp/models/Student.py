@@ -102,7 +102,7 @@ def update_student(student_data):
                 SELECT id FROM course where courseCode = %s
             )
             WHERE studentId = %s
-        """, (student_data['studentId'], student_data['firstName'], student_data['lastName'], student_data['gender'], student_data['year'], student_data['courseCode'], student_data['currentStudentId']))                
+        """, (student_data['studentId'], student_data['firstName'], student_data['lastName'], student_data['gender'], student_data['year'], student_data['courseName'], student_data['currentStudentId']))                
 
         conn.commit()
         return {'success': True, 'message': 'Student updated successfully'}

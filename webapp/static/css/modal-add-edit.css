@@ -1,14 +1,24 @@
 #add-student-form input#student-id,
 #add-student-form input#first-name,
 #add-student-form input#last-name,
+#add-student-form input#course-name,
+
+#edit-student-form input#student-id,
+#edit-student-form input#first-name,
+#edit-student-form input#last-name,
+#edit-student-form input#course-name,
+
 #add-course-form input#course-code,
 #add-course-form input#course-name,
 #add-course-form input#college-name,
+
 #edit-course-form input#course-code,
 #edit-course-form input#course-name,
 #edit-course-form input#college-name,
+
 #add-college-form input#college-code,
 #add-college-form input#college-name,
+
 #edit-college-form input#college-code,
 #edit-college-form input#college-name {
     width: 17.5vw;
@@ -22,6 +32,7 @@
 #add-course-form input#course-code,
 #add-course-form input#course-name,
 #add-course-form input#college-name,
+
 #edit-course-form input#course-code,
 #edit-course-form input#course-name,
 #edit-course-form input#college-name {
@@ -29,7 +40,8 @@
 }
 
 #add-college-form input#college-code,
-#add-college-form input#college-name, 
+#add-college-form input#college-name,
+
 #edit-college-form input#college-code,
 #edit-college-form input#college-name {
     width: 27.91vw;
@@ -38,20 +50,30 @@
 #add-student-form label[for="student-id"],
 #add-student-form label[for="first-name"],
 #add-student-form label[for="last-name"],
+#add-student-form label[for="course-name"],
+
+#edit-student-form label[for="student-id"],
+#edit-student-form label[for="first-name"],
+#edit-student-form label[for="last-name"],
+
 #add-course-form label[for="course-code"],
 #add-course-form label[for="course-name"],
 #add-course-form label[for="college-name"],
+
 #edit-course-form label[for="course-code"],
 #edit-course-form label[for="course-name"],
 #edit-course-form label[for="college-name"],
+
 #add-college-form label[for="college-code"],
 #add-college-form label[for="college-name"],
+
 #edit-college-form label[for="college-code"],
 #edit-college-form label[for="college-name"] {
     margin-left: 1.67vw;
 }
 
-#add-student-form label[for="student-id"] {
+#add-student-form label[for="student-id"],
+#edit-student-form label[for="student-id"] {
     margin-top: 3.24vh;
 }
 
@@ -62,7 +84,8 @@
     flex-direction: row;
 }
 
-#add-student-form label[for="year"] {
+#add-student-form label[for="year"],
+#edit-student-form label[for="year"] {
     width: 2.135vw;
     margin-left: 2.708vw;
 }
@@ -70,20 +93,29 @@
 #add-student-form label[for="year1"],
 #add-student-form label[for="year2"],
 #add-student-form label[for="year3"],
-#add-student-form label[for="year4"] {
+#add-student-form label[for="year4"],
+
+#edit-student-form label[for="year1"],
+#edit-student-form label[for="year2"],
+#edit-student-form label[for="year3"],
+#edit-student-form label[for="year4"] {
     color: var(--gray-500);
     font-weight: 500;
     margin-left: 3.33vw;
     width: 0.468vw;
 }
 
-#add-student-form label[for="gender"] {
+#add-student-form label[for="gender"],
+#edit-student-form label[for="gender"] {
     width: 3.43vw;
     margin-left: 5.83vw;
 }
 
 #add-student-form label[for="male"],
-#add-student-form label[for="female"] {
+#add-student-form label[for="female"],
+
+#edit-student-form label[for="male"],
+#edit-student-form label[for="female"] {
     color: var(--gray-500);
     font-weight: 500;
     margin-left: -0.5vw;
@@ -149,7 +181,22 @@
     font-size: calc(0.52vw + 0.925vh);
 }
 
+#add-student-form select#course-dropdown,
+#edit-student-form select#course-dropdown {
+    width: 17.5vw;
+    height: 3.7vh;
+    border: 0.15vw solid;
+    border-radius: 0.83vw;
+    border-color: var(--blue-green-500);
+    margin: 0.37vh 1.67vw 1.85vh 1.67vw;
+    background-color: white;
+    font-size: calc(0.52vw + 0.925vh);
+}
+
 #add-course-form select#college-dropdown option,
-#edit-course-form select#college-dropdown {
+#edit-course-form select#college-dropdown,
+
+#add-student-form select#course-dropdown option,
+#edit-student-form select#course-dropdown {
     font-size: calc(0.52vw + 0.925vh); 
 }

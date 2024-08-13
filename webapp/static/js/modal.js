@@ -211,35 +211,63 @@ function showStudentEditModal(studentId, firstName, lastName, gender, year, cour
     const modalContent = `
         <form id="edit-student-form">
             <label for="student-id">ID Number:</label>
-            <input type="text" id="student-id" name="studentId" value="${studentId}" readonly><br>
+            <input type="text" id="student-id" name="studentId" value="${studentId}"><br>
             
             <label for="first-name">First Name:</label>
             <input type="text" id="first-name" name="firstName" value="${firstName}"><br>
             
             <label for="last-name">Last Name:</label>
             <input type="text" id="last-name" name="lastName" value="${lastName}"><br>
-            
-            <label for="gender">Gender:</label>
-            <select id="gender" name="gender">
-                <option value="Male" ${gender === "Male" ? "selected" : ""}>Male</option>
-                <option value="Female" ${gender === "Female" ? "selected" : ""}>Female</option>
+
+            <label for="course-name">Course Name:</label>
+            <select id="course-dropdown" name="courseName">
             </select><br>
 
-            <label for="year">Year:</label>
-            <select id="year" name="year">
-                <option value="1" ${year === "1" ? "selected" : ""}>1</option>
-                <option value="2" ${year === "2" ? "selected" : ""}>2</option>
-                <option value="3" ${year === "3" ? "selected" : ""}>3</option>
-                <option value="4" ${year === "4" ? "selected" : ""}>4</option>
-            </select><br>
+            <div class="year-and-gender">
+                <label for="year">Year</label>
+                <label for="gender">Gender:</label><br>
+            </div>
 
-            <label for="course-name">Course:</label>
-            <select id="course-dropdown" name="courseCode">
-            </select><br>
-            
+            <div class="radio-group">
+                <div class="year1-and-male">
+                    <div class="radio-year">
+                        <label for="year1">1</label>
+                        <input type="radio" id="year1" name="year" value="1" ${year === "1" ? "checked" : ""}>
+                    </div>
+
+                    <div class="radio-gender">
+                        <input type="radio" id="male" name="gender" value="Male" ${gender === "Male" ? "checked" : ""}>
+                        <label for="male">Male</label><br>
+                    </div>
+                </div>
+
+                <div class="year2-and-female">
+                    <div class="radio-year">
+                        <label for="year2">2</label>
+                        <input type="radio" id="year2" name="year" value="2" ${year === "2" ? "checked" : ""}>
+                    </div>
+
+                    <div class="radio-gender">
+                        <input type="radio" id="female" name="gender" value="Female" ${gender === "Female" ? "checked" : ""}>
+                        <label for="female">Female</label><br>
+                    </div>
+                </div>
+
+                <div class="radio-year">
+                    <label for="year3">3</label>
+                    <input type="radio" id="year3" name="year" value="3" ${year === "3" ? "checked" : ""}>
+                </div>
+
+                <div class="radio-year">
+                    <label for="year4">4</label>
+                    <input type="radio" id="year4" name="year" value="4" ${year === "4" ? "checked" : ""}>
+                </div>
+            </div>
+
             <input type="hidden" id="current-student-id" name="currentStudentId" value="${studentId}">
             <button type="submit" class="confirm-button" id="student-confirm">Confirm</button>
         </form>
+
     `;
 
     modalBody.innerHTML = modalContent;
