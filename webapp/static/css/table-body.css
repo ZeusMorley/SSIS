@@ -29,3 +29,13 @@
 .table-row.selected {
     background-color: var(--blue-green-100);
 }
+
+.first-last-name {
+    display: flex;
+    flex-direction: column;
+}
+
+.first-last-name .first-name,
+.first-last-name .last-name {
+    margin: 0;
+}
