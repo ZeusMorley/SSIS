@@ -56,6 +56,7 @@
 #edit-student-form label[for="student-id"],
 #edit-student-form label[for="first-name"],
 #edit-student-form label[for="last-name"],
+#edit-student-form label[for="student-photo"],
 
 #add-course-form label[for="course-code"],
 #add-course-form label[for="course-name"],
@@ -123,7 +124,8 @@
     width: 0.468vw;
 }
 
-#add-student-form input#student-photo {
+#add-student-form input#student-photo,
+#edit-student-form input#student-photo {
     margin: 0.37vh 1.67vw 1.85vh 1.67vw;
 }
 
@@ -206,7 +208,8 @@
     font-size: calc(0.52vw + 0.925vh); 
 }
 
-#add-student-form img#photo-preview {
+#add-student-form img#photo-preview,
+#edit-student-form img#photo-preview {
     display: block;
     max-height: 16vh;
     max-width: 16vh;

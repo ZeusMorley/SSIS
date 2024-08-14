@@ -3,6 +3,7 @@ from webapp.db import get_mysql_connection
 import mysql.connector
 import re
 import cloudinary.uploader
+import cloudinary.api
 
 def validate_student_id(student_id):
     pattern = r'^\d{4}-\d{4}$' 
@@ -93,7 +94,7 @@ def delete_student(student_id):
 
 
 
-def update_student(student_data):
+def update_student(student_data, file=None):
     conn = get_mysql_connection()
     cursor = conn.cursor()
     
@@ -105,70 +106,49 @@ def update_student(student_data):
             exists = cursor.fetchone()[0]
 
             if exists:
-                return {'success': False, 'message': 'Student ID already exists.'}
+                return {'success': False, 'message': 'Student ID already exists.', 'type': 'error'}
 
-        cursor.execute("""  
+        new_cloudinary_url = None
+        if file:
+            try:
+                cursor.execute("SELECT cloudinary_url FROM student WHERE studentId = %s", (student_data['currentStudentId'],))
+                old_cloudinary_url = cursor.fetchone()[0]
+
+                upload_result = cloudinary.uploader.upload(file, folder='student_photos')
+                new_cloudinary_url = upload_result.get('secure_url')
+
+                if old_cloudinary_url:
+                    public_id = old_cloudinary_url.split('/')[-1].split('.')[0]
+                    cloudinary.uploader.destroy(public_id)
+                
+            except Exception as e:
+                return {'success': False, 'message': f"Photo upload failed: {str(e)}", 'type': 'error'}
+
+        update_query = """
             UPDATE student
-            SET studentId = %s, firstName = %s, lastName = %s, gender = %s, year =  %s, courseId = (
-                SELECT id FROM course where courseCode = %s
+            SET studentId = %s, firstName = %s, lastName = %s, gender = %s, year = %s, courseId = (
+                SELECT id FROM course WHERE courseCode = %s
             )
-            WHERE studentId = %s
-        """, (student_data['studentId'], student_data['firstName'], student_data['lastName'], student_data['gender'], student_data['year'], student_data['courseName'], student_data['currentStudentId']))                
+        """
+        
+        update_params = [student_data['studentId'], student_data['firstName'], student_data['lastName'], student_data['gender'], student_data['year'], student_data['courseName']]
 
+        if new_cloudinary_url:
+            update_query += ", cloudinary_url = %s"
+            update_params.append(new_cloudinary_url)
+
+        update_query += " WHERE studentId = %s"
+        update_params.append(student_data['currentStudentId'])
+
+        cursor.execute(update_query, update_params)
         conn.commit()
-        return {'success': True, 'message': 'Student updated successfully'}
+
+        return {'success': True, 'message': 'Student updated successfully', 'type': 'success'}
     
     except mysql.connector.Error as e:
         conn.rollback()
-        return {'success': False, 'message': str(e)}
+        return {'success': False, 'message': str(e), 'type': 'error'}
     finally:
         cursor.close()
-        conn.close
-
-    # if not validate_student_id(student_id):
-    #     return {"success": False, "message": "Invalid student ID format.", "type": "warning"}
-    
-    # query_parts = []
-    # params = []
-    
-    # if 'firstName' in data:
-    #     query_parts.append("firstName = %s")
-    #     params.append(data['firstName'])
-    
-    # if 'lastName' in data:
-    #     query_parts.append("lastName = %s")
-    #     params.append(data['lastName'])
-    
-    # if 'gender' in data:
-    #     query_parts.append("gender = %s")
-    #     params.append(data['gender'])
-    
-    # if 'year' in data:
-    #     query_parts.append("year = %s")
-    #     params.append(data['year'])
-    
-    # if 'courseCode' in data:
-    #     query_parts.append("courseId = (SELECT id FROM course WHERE courseCode = %s)")
-    #     params.append(data['courseCode'])
-    
-    # if not query_parts:
-    #     return {"success": False, "message": "No valid fields provided for update.", "type": "error"}
-    
-    # query = "UPDATE student SET " + ", ".join(query_parts) + " WHERE studentId = %s"
-    # params.append(student_id)
-    
-    # try:
-    #     cursor.execute(query, tuple(params))
-    #     conn.commit()
+        conn.close()
         
-    #     if cursor.rowcount == 0:
-    #         return {"success": False, "message": "Student ID not found.", "type": "warning"}
-        
-    #     return {"success": True, "message": "Student updated successfully!", "type": "success"}
-    
-    # except mysql.connector.Error as e:
-    #     return {"success": False, "message": str(e), "type": "error"}
-    
-    # finally:
-    #     cursor.close()
-    #     conn.close()

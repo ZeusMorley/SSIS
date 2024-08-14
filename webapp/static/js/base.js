@@ -43,7 +43,8 @@ function addRowClickListeners() {
                 const lastName = selectedRow.querySelector('.last-name').textContent.trim();
                 const gender = selectedRow.querySelector('.gender').textContent.trim();
                 const year = selectedRow.querySelector('.year').textContent.trim();
-                showStudentEditModal(studentId, firstName, lastName, gender, year);
+                const cloudinary_url = selectedRow.querySelector('.profile-picture img').getAttribute('src');
+                showStudentEditModal(studentId, firstName, lastName, gender, year, cloudinary_url);
                 console.log(studentId)
             }
         }

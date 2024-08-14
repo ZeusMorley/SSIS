@@ -221,12 +221,12 @@ function attachEditCourseFormSubmitListener() {
     }
 }
 
-function showStudentEditModal(studentId, firstName, lastName, gender, year, courseCode, courseName) {
+function showStudentEditModal(studentId, firstName, lastName, gender, year, cloudinary_url, courseCode) {
     const modal = document.getElementById('add-modal');
     const modalBody = document.getElementById('modal-body');
 
     const modalContent = `
-        <form id="edit-student-form">
+        <form id="edit-student-form" enctype="multipart/form-data">
             <label for="student-id">ID Number:</label>
             <input type="text" id="student-id" name="studentId" value="${studentId}"><br>
             
@@ -281,6 +281,14 @@ function showStudentEditModal(studentId, firstName, lastName, gender, year, cour
                 </div>
             </div>
             
+            <label for="student-photo">Upload Photo:</label>
+            <input type="file" id="student-photo" name="studentPhoto" accept="image/*" onchange="previewPhoto()"><br>
+            
+            <img src="${cloudinary_url}"
+                id="photo-preview"
+                alt="Profile Picture" 
+                onerror="this.onerror=null; this.src='https://res.cloudinary.com/dmvwcolfi/image/upload/v1722969919/student_photos/up5upsjz6e86isvae6qw.jpg';" />
+
             <input type="hidden" id="current-student-id" name="currentStudentId" value="${studentId}">
             <button type="submit" class="confirm-button" id="student-confirm">Confirm</button>
         </form>
@@ -302,15 +310,12 @@ function attachEditStudentFormSubmitListener() {
     if (form) {
         form.addEventListener('submit', function(event) {
             event.preventDefault();
+
             const formData = new FormData(form);
-            const studentData = Object.fromEntries(formData.entries());
 
             fetch(`/student/update-student`, {
                 method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(studentData)
+                body: formData
             })
             .then(response => response.json())
             .then(data => {
@@ -327,7 +332,6 @@ function attachEditStudentFormSubmitListener() {
         });
     }
 }
-
 
 function showAddModal() {
     const modal = document.getElementById('add-modal');

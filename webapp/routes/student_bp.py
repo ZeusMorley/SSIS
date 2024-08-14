@@ -23,10 +23,8 @@ def delete_student_route():
     
 @student_bp.route('/update-student', methods=['PUT'])
 def update_student_route():
-    data = request.get_json()
-    result = update_student(data)
+    data = request.form.to_dict()
+    file = request.files.get('studentPhoto')
+    result = update_student(data, file)
     
-    if result['success']:
-        return jsonify({'success': True, 'message': result['message'], 'type': 'success'})
-    else:
-        return jsonify({'success': False, 'message': result['message'], 'type': 'warning'}), 400
+    return jsonify(result)
