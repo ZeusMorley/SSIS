@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     populateCollegeDropdown();
 });
 
-function populateCourseDropdown() {
+function populateCourseDropdown(callback) {
     const courseDropdown = document.getElementById('course-dropdown');
     if (!courseDropdown) return;
 
@@ -43,11 +43,9 @@ function populateCourseDropdown() {
         option.textContent = `${course.courseCode} - ${course.courseName}`;
         courseDropdown.appendChild(option);
     });
-}
 
-document.addEventListener('DOMContentLoaded', () => {
-    populateCourseDropdown();
-});
+    if (callback) callback();
+}
 
 
 function attachCourseFormSubmitListener() {
@@ -292,6 +290,7 @@ function showStudentEditModal(studentId, firstName, lastName, gender, year, clou
             <input type="checkbox" id="clearPhoto" name="clearPhoto" value="True">
             <label for="clearPhoto">Clear Profile Photo</label>
             
+            <input type="hidden" id="current-course-code" name="currentCourseCode" value="${courseCode}">
             <input type="hidden" id="current-photo-url" name="currentPhotoUrl" value="${cloudinary_url}">
             <input type="hidden" id="current-student-id" name="currentStudentId" value="${studentId}">
             <button type="submit" class="confirm-button" id="student-confirm">Confirm</button>
@@ -303,7 +302,13 @@ function showStudentEditModal(studentId, firstName, lastName, gender, year, clou
     modal.className = 'modal student-modal';
     modal.style.display = "block";
 
-    populateCourseDropdown(courseCode);
+    populateCourseDropdown(() => {
+        // Set the selected course after populating the dropdown
+        const courseDropdown = document.getElementById('course-dropdown');
+        if (courseDropdown) {
+            courseDropdown.value = courseCode;
+        }
+    });
 
     attachEditStudentFormSubmitListener(studentId);
 }

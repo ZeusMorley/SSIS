@@ -95,7 +95,7 @@ def delete_student(student_id):
 
 
 def update_student(student_data, file=None, clear_photo=False):
-    required_fields = ['studentId', 'firstName', 'lastName', 'gender', 'year', 'courseName']
+    required_fields = ['studentId', 'firstName', 'lastName', 'gender', 'year']
     for field in required_fields:
         if field not in student_data or not student_data[field]:
             return {"success": False, "message": "All fields are required.", "type": "warning"}
@@ -105,7 +105,7 @@ def update_student(student_data, file=None, clear_photo=False):
 
     conn = get_mysql_connection()
     cursor = conn.cursor()
-
+    
     try:
         # Check if the studentId is being changed and verify uniqueness
         if student_data['studentId'] != student_data['currentStudentId']:
@@ -117,9 +117,20 @@ def update_student(student_data, file=None, clear_photo=False):
             if exists:
                 return {'success': False, 'message': 'Student ID already exists.', 'type': 'error'}
 
-        # Get the current cloudinary URL for the student
-        cursor.execute("SELECT cloudinary_url FROM student WHERE studentId = %s", (student_data['currentStudentId'],))
-        old_cloudinary_url = cursor.fetchone()[0]
+        # Get the current cloudinary URL for the student and current course info
+        cursor.execute("""
+            SELECT cloudinary_url, courseId 
+            FROM student 
+            WHERE studentId = %s
+        """, (student_data['currentStudentId'],))
+        result = cursor.fetchone()
+        old_cloudinary_url, current_course_id = result if result else (None, None)
+        old_course_code = None
+
+        if current_course_id:
+            cursor.execute("SELECT courseCode FROM course WHERE id = %s", (current_course_id,))
+            old_course_code_result = cursor.fetchone()
+            old_course_code = old_course_code_result[0] if old_course_code_result else None
 
         new_cloudinary_url = None
 
@@ -145,14 +156,25 @@ def update_student(student_data, file=None, clear_photo=False):
             # No new photo provided, keep the old cloudinary URL
             new_cloudinary_url = old_cloudinary_url
 
+        # If courseName is empty, use the current course code
+        course_code = student_data.get('courseName', '').strip()
+        if not course_code:
+            course_code = old_course_code
+
+        # Fetch courseId for the provided or current courseCode
+        cursor.execute("SELECT id FROM course WHERE courseCode = %s", (course_code,))
+        course_id_result = cursor.fetchone()
+        course_id = course_id_result[0] if course_id_result else None
+
+        if not course_id:
+            return {'success': False, 'message': 'Invalid course code.', 'type': 'error'}
+
         update_query = """
             UPDATE student
-            SET studentId = %s, firstName = %s, lastName = %s, gender = %s, year = %s, courseId = (
-                SELECT id FROM course WHERE courseCode = %s
-            )
+            SET studentId = %s, firstName = %s, lastName = %s, gender = %s, year = %s, courseId = %s
         """
         
-        update_params = [student_data['studentId'], student_data['firstName'], student_data['lastName'], student_data['gender'], student_data['year'], student_data['courseName']]
+        update_params = [student_data['studentId'], student_data['firstName'], student_data['lastName'], student_data['gender'], student_data['year'], course_id]
 
         if new_cloudinary_url is not None:
             update_query += ", cloudinary_url = %s"
@@ -174,8 +196,3 @@ def update_student(student_data, file=None, clear_photo=False):
     finally:
         cursor.close()
         conn.close()
-
-
-
-
-        
