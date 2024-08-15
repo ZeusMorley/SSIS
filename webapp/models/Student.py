@@ -95,21 +95,21 @@ def delete_student(student_id):
 
 
 def update_student(student_data, file=None, clear_photo=False):
-
     required_fields = ['studentId', 'firstName', 'lastName', 'gender', 'year', 'courseName']
     for field in required_fields:
         if field not in student_data or not student_data[field]:
             return {"success": False, "message": "All fields are required.", "type": "warning"}
-    
+
     if not validate_student_id(student_data['studentId']):
         return {"success": False, "message": "Student ID must be in the format YYYY-NNNN.", "type": "warning"}
-        
+
     conn = get_mysql_connection()
     cursor = conn.cursor()
 
     try:
+        # Check if the studentId is being changed and verify uniqueness
         if student_data['studentId'] != student_data['currentStudentId']:
-            cursor.execute(""" 
+            cursor.execute("""
                 SELECT COUNT(*) FROM student WHERE studentId = %s
             """, (student_data['studentId'],))
             exists = cursor.fetchone()[0]
@@ -117,32 +117,33 @@ def update_student(student_data, file=None, clear_photo=False):
             if exists:
                 return {'success': False, 'message': 'Student ID already exists.', 'type': 'error'}
 
+        # Get the current cloudinary URL for the student
+        cursor.execute("SELECT cloudinary_url FROM student WHERE studentId = %s", (student_data['currentStudentId'],))
+        old_cloudinary_url = cursor.fetchone()[0]
+
         new_cloudinary_url = None
 
         if clear_photo:
-            cursor.execute("SELECT cloudinary_url FROM student WHERE studentId = %s", (student_data['currentStudentId'],))
-            old_cloudinary_url = cursor.fetchone()[0]
-
+            # Clear the photo by setting URL to NULL and deleting from Cloudinary
             if old_cloudinary_url:
                 public_id = old_cloudinary_url.split('/')[-1].split('.')[0]
                 cloudinary.uploader.destroy(public_id)
-            
             new_cloudinary_url = None
-
         elif file and file.filename:
+            # Only upload a new photo if a file with a valid filename is provided
             try:
-                cursor.execute("SELECT cloudinary_url FROM student WHERE studentId = %s", (student_data['currentStudentId'],))
-                old_cloudinary_url = cursor.fetchone()[0]
-
                 upload_result = cloudinary.uploader.upload(file, folder='student_photos')
                 new_cloudinary_url = upload_result.get('secure_url')
 
+                # Delete the old photo from Cloudinary if it exists
                 if old_cloudinary_url:
                     public_id = old_cloudinary_url.split('/')[-1].split('.')[0]
                     cloudinary.uploader.destroy(public_id)
-
             except Exception as e:
                 return {'success': False, 'message': f"Photo upload failed: {str(e)}", 'type': 'error'}
+        else:
+            # No new photo provided, keep the old cloudinary URL
+            new_cloudinary_url = old_cloudinary_url
 
         update_query = """
             UPDATE student
@@ -173,5 +174,8 @@ def update_student(student_data, file=None, clear_photo=False):
     finally:
         cursor.close()
         conn.close()
+
+
+
 
         
