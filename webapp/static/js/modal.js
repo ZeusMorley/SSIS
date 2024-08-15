@@ -495,25 +495,3 @@ function attachCollegeFormSubmitListener() {
         });
     }
 }
-
-
-
-
-// Reminder:
-// (DONE) Implement: Dapat ma off ang buttons kada change tab since ma off man sd tung select
-
-//(error handling/catching)
-
-//Add 
-// bawal mag add ug existing or duplicate na idnumber, courseid, and collegeid
-
-//Delete
-//bawal mag delete ug course or college nga naay sulod
-
-//Edit
-//bawal i edit ang into existing ang idnumber, courseid, ug college id
-
-//Features to add
-//Add - maka add, upload(to cloudyinary and preview ug profile pic 
-//Edit - maka usab ug imong profile pic or i clear ang profile pic
-// (DONE)default na pic if walay profile
