@@ -25,6 +25,12 @@ def delete_student_route():
 def update_student_route():
     data = request.form.to_dict()
     file = request.files.get('studentPhoto')
-    result = update_student(data, file)
+    clear_photo = 'clearPhoto' in data and data['clearPhoto'] == 'on'
+    
+    print(f"Received data: {data}")
+    print(f"File: {file}")
+    print(f"Clear photo: {clear_photo}")
+    
+    result = update_student(data, file, clear_photo)
     
     return jsonify(result)

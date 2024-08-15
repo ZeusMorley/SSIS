@@ -289,6 +289,9 @@ function showStudentEditModal(studentId, firstName, lastName, gender, year, clou
                 alt="Profile Picture" 
                 onerror="this.onerror=null; this.src='https://res.cloudinary.com/dmvwcolfi/image/upload/v1722969919/student_photos/up5upsjz6e86isvae6qw.jpg';" />
 
+            <input type="checkbox" id="clearPhoto" name="clearPhoto" value="on">
+            <label for="clearPhoto">Clear Profile Photo</label>
+            
             <input type="hidden" id="current-student-id" name="currentStudentId" value="${studentId}">
             <button type="submit" class="confirm-button" id="student-confirm">Confirm</button>
         </form>
