@@ -17,7 +17,7 @@ function previewPhoto() {
 }
 
 
-function populateCollegeDropdown() {
+function populateCollegeDropdown(callback) {
     const collegeDropdown = document.getElementById('college-dropdown');
     if (!collegeDropdown) return;
 
@@ -27,11 +27,9 @@ function populateCollegeDropdown() {
         option.textContent = `${college.collegeCode} - ${college.collegeName}`;
         collegeDropdown.appendChild(option);
     });
-}
 
-document.addEventListener('DOMContentLoaded', () => {
-    populateCollegeDropdown();
-});
+    if (callback) callback();
+}
 
 function populateCourseDropdown(callback) {
     const courseDropdown = document.getElementById('course-dropdown');
@@ -161,7 +159,7 @@ function attachEditCollegeFormSubmitListener() {
     }
 }
 
-function showCourseEditModal(courseCode, courseName, collegeName) {
+function showCourseEditModal(courseCode, courseName, collegeCode) {
     const modal = document.getElementById('add-modal');
     const modalBody = document.getElementById('modal-body');
 
@@ -175,6 +173,7 @@ function showCourseEditModal(courseCode, courseName, collegeName) {
             <select id="college-dropdown" name="collegeName">
             </select><br>
             <input type="hidden" id="current-course-code" name="currentCourseCode" value="${courseCode}">
+            <input type="hidden" id="current-college-code" name="currentCollegeCode" value="${collegeCode}">
             <button type="submit" class="confirm-button" id="course-confirm">Confirm</button>
         </form>
     `;
@@ -183,7 +182,12 @@ function showCourseEditModal(courseCode, courseName, collegeName) {
     modal.className = 'modal course-modal';
     modal.style.display = "block";
 
-    populateCollegeDropdown();
+    populateCollegeDropdown(() => {
+        const collegeDropdown = document.getElementById('college-dropdown');
+        if (collegeDropdown) {
+            collegeDropdown.value = collegeCode;
+        }
+    });
 
     attachEditCourseFormSubmitListener(courseCode);
 }
@@ -303,7 +307,6 @@ function showStudentEditModal(studentId, firstName, lastName, gender, year, clou
     modal.style.display = "block";
 
     populateCourseDropdown(() => {
-        // Set the selected course after populating the dropdown
         const courseDropdown = document.getElementById('course-dropdown');
         if (courseDropdown) {
             courseDropdown.value = courseCode;

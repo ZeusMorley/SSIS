@@ -107,7 +107,6 @@ def update_student(student_data, file=None, clear_photo=False):
     cursor = conn.cursor()
     
     try:
-        # Check if the studentId is being changed and verify uniqueness
         if student_data['studentId'] != student_data['currentStudentId']:
             cursor.execute("""
                 SELECT COUNT(*) FROM student WHERE studentId = %s
@@ -117,7 +116,6 @@ def update_student(student_data, file=None, clear_photo=False):
             if exists:
                 return {'success': False, 'message': 'Student ID already exists.', 'type': 'error'}
 
-        # Get the current cloudinary URL for the student and current course info
         cursor.execute("""
             SELECT cloudinary_url, courseId 
             FROM student 
@@ -135,33 +133,27 @@ def update_student(student_data, file=None, clear_photo=False):
         new_cloudinary_url = None
 
         if clear_photo:
-            # Clear the photo by setting URL to NULL and deleting from Cloudinary
             if old_cloudinary_url:
                 public_id = old_cloudinary_url.split('/')[-1].split('.')[0]
                 cloudinary.uploader.destroy(public_id)
             new_cloudinary_url = None
         elif file and file.filename:
-            # Only upload a new photo if a file with a valid filename is provided
             try:
                 upload_result = cloudinary.uploader.upload(file, folder='student_photos')
                 new_cloudinary_url = upload_result.get('secure_url')
 
-                # Delete the old photo from Cloudinary if it exists
                 if old_cloudinary_url:
                     public_id = old_cloudinary_url.split('/')[-1].split('.')[0]
                     cloudinary.uploader.destroy(public_id)
             except Exception as e:
                 return {'success': False, 'message': f"Photo upload failed: {str(e)}", 'type': 'error'}
         else:
-            # No new photo provided, keep the old cloudinary URL
             new_cloudinary_url = old_cloudinary_url
 
-        # If courseName is empty, use the current course code
         course_code = student_data.get('courseName', '').strip()
         if not course_code:
             course_code = old_course_code
 
-        # Fetch courseId for the provided or current courseCode
         cursor.execute("SELECT id FROM course WHERE courseCode = %s", (course_code,))
         course_id_result = cursor.fetchone()
         course_id = course_id_result[0] if course_id_result else None

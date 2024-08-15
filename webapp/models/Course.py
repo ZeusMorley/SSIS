@@ -26,7 +26,11 @@ def get_all_courses():
 
 
 def add_course(course_data):
-    """Add a new course to the database."""
+    required_fields = ['courseCode', 'courseName', 'collegeName']
+    for field in required_fields:
+        if field not in course_data or not course_data[field]:
+            return {"success": False, "message": "All fields are required.", "type": "warning"}
+        
     conn = get_mysql_connection()
     cursor = conn.cursor()
 
@@ -91,6 +95,11 @@ def delete_course(course_code):
 
 
 def update_course(course_data):
+    required_fields = ['courseCode', 'courseName']
+    for field in required_fields:
+        if field not in course_data or not course_data[field]:
+            return {"success": False, "message": "All fields are required.", "type": "warning"}
+
     conn = get_mysql_connection()
     cursor = conn.cursor()
 
@@ -102,26 +111,42 @@ def update_course(course_data):
             exists = cursor.fetchone()[0]
 
             if exists:
-                return {'success': False, 'message': 'Course code already exists.'}
+                return {'success': False, 'message': 'Course code already exists.', 'type': 'error'}
+
+        cursor.execute("""
+            SELECT collegeId FROM course WHERE courseCode = %s
+        """, (course_data['currentCourseCode'],))
+        result = cursor.fetchone()
+        current_college_id = result[0] if result else None
+
+        college_code = course_data.get('collegeName', '').strip()
+        if not college_code:
+            college_id = current_college_id
+        else:
+            cursor.execute("SELECT id FROM college WHERE collegeCode = %s", (college_code,))
+            college_id_result = cursor.fetchone()
+            college_id = college_id_result[0] if college_id_result else None
+
+            if not college_id:
+                return {'success': False, 'message': 'Invalid college code.', 'type': 'error'}
 
         cursor.execute("""
             UPDATE course
-            SET courseCode = %s, courseName = %s, collegeId = (
-                SELECT id FROM college WHERE collegeCode = %s
-            )
+            SET courseCode = %s, courseName = %s, collegeId = %s
             WHERE courseCode = %s
-        """, (course_data['courseCode'], course_data['courseName'], course_data['collegeName'], course_data['currentCourseCode']))
+        """, (course_data['courseCode'], course_data['courseName'], college_id, course_data['currentCourseCode']))
 
         conn.commit()
-        return {'success': True, 'message': 'Course updated successfully'}
+        return {'success': True, 'message': 'Course updated successfully', 'type': 'success'}
     
     except mysql.connector.Error as e:
         conn.rollback()
-        return {'success': False, 'message': str(e)}
+        return {'success': False, 'message': str(e), 'type': 'error'}
     
     finally:
         cursor.close()
         conn.close()
+
 
 
 
