@@ -70,7 +70,7 @@ def delete_course(course_code):
         student_count = cursor.fetchone()[0]
 
         if student_count > 0:
-            return {'success': False, 'message': 'Cannot delete course. There are students enroll in this course.'}
+            return {'success': False, 'message': 'Cannot delete course. There are students enrolled in this course.'}
 
         cursor.execute("""
             DELETE FROM course
