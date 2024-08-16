@@ -3,6 +3,20 @@ function previewPhoto() {
     const photoPreview = document.getElementById('photo-preview');
 
     if (fileInput.files && fileInput.files[0]) {
+        const file = fileInput.files[0];
+        const fileSize = file.size;
+        const fileType = file.type;
+
+        if (fileType !== 'image/png' && fileType !== 'image/jpeg') {
+            showErrorModal('Only PNG and JPG files are allowed.', 'default');
+            closeModal();
+        }
+
+        if (fileSize > 1024 * 1024) {
+            showErrorModal('File size must be less than 1MB.', 'default');
+            closeModal();
+        }
+
         const reader = new FileReader();
 
         reader.onload = function(e) {
@@ -10,7 +24,7 @@ function previewPhoto() {
             photoPreview.style.display = 'block';
         }
 
-        reader.readAsDataURL(fileInput.files[0]); 
+        reader.readAsDataURL(file);
     } else {
         photoPreview.style.display = 'none';
     }
